@@ -1,0 +1,15 @@
+- clean: []
+- shell:
+    - mkdir -p ~/.shellrc
+    - cp bashrc ~/.bashrc
+- link:
+    ~/.shellrc/bashrc.d: 
+        create: true
+        path: bashrc.d/
+    ~/.shellrc/login.d: 
+        create: true
+        path: login.d/
+    ~/.shellrc/bin:
+        create: true
+        path: bin
+    ~/.vimrc: vimrc
