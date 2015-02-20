@@ -1,3 +1,7 @@
+#!/bin/ bash
+# Ignore if we're not on OSX
+[[ "$OSTYPE" =~ ^darwin ]] || exit 0
+
 # Ask for the administrator password upfront.
 sudo -v
 
