@@ -25,3 +25,11 @@ fi
 if [ -f ~/.shellrc/local ]; then
     . ~/.shellrc/local
 fi
+
+# Load all files from .shell/local.d directory
+if [ -d $HOME/.shellrc/local.d ]; then
+  for file in $HOME/.shellrc/local.d/*.bash; do
+    [ -e "$file" ] || break
+    source $file
+  done
+fi
