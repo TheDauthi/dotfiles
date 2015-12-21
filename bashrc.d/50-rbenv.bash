@@ -1,4 +1,7 @@
+#!/bin/bash
 # Sets up plenv in our environment
-
-pathprepend "$HOME/.rbenv/bin"
-eval "$(rbenv init -)"
+if [ -f $FILE ]; 
+then
+  pathprepend "$HOME/.rbenv/bin"
+  eval "$(rbenv init -)"
+fi
