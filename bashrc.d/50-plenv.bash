@@ -1,4 +1,6 @@
 # Sets up plenv in our environment
-
-pathprepend "$HOME/.plenv/bin"
-eval "$(plenv init -)"
+if [ -d $HOME/.plenv ];
+then
+  pathprepend "$HOME/.plenv/bin"
+  eval "$(plenv init -)"
+fi
