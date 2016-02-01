@@ -1,6 +1,6 @@
 - clean: []
 - shell:
-    - bash install.d/brew.sh
+    - bash install.d/brew
     - mkdir -p ~/.shellrc
     - cp bashrc ~/.bashrc
     - cp bash_profile ~/.bash_profile
