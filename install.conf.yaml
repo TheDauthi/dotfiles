@@ -1,7 +1,7 @@
 - clean: []
 - shell:
+    - mkdir -p ~/.shellrc/local.d 
     - bash install.d/brew
-    - mkdir -p ~/.shellrc
     - cp bashrc ~/.bashrc
     - cp bash_profile ~/.bash_profile
 - link:
