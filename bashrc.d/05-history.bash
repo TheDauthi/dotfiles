@@ -9,3 +9,5 @@ HISTSIZE=10000
 HISTFILESIZE=20000
 
 HISTCONTROL="erasedups:ignoreboth"
+# This will save the history after each command
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
