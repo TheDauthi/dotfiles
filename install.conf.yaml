@@ -1,6 +1,8 @@
 - clean: []
 - shell:
     - mkdir -p ~/.shellrc/local.d 
+    # Don't assume that run-parts exists.  On OSX, we have to install it.
+    - bin/run-parts.sh install.d 
     - bash install.d/brew
     - cp bashrc ~/.bashrc
     - cp bash_profile ~/.bash_profile
