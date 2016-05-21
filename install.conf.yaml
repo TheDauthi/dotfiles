@@ -1,6 +1,6 @@
 - clean: []
 - shell:
-    - mkdir -p ~/.shellrc/local.d ~/bin -d ~/.shellrc/login.d
+    - mkdir -p ~/.shellrc/local.d ~/bin ~/.shellrc/login.d
     - bin/run-parts.sh install.d 
     - cp bashrc ~/.bashrc
     - cp bash_profile ~/.bash_profile
