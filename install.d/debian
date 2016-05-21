@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Ignore if we're not on a Debian-based system
+[[ -f /etc/debian_version ]] || exit 0
+
+# Ask for the administrator password upfront.
+get_sudo ()
+{
+  $HAS_SUDO || return
+  sudo -v
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  HAS_SUDO=1
+}
+
+pkg_install ()
+{
+  get_sudo
+
+  if [[ ! $APT_UPDATED ]]; then
+    sudo apt-get update
+    APT_UPDATED=1
+  fi
+
+  sudo apt-get install "$@"
+}
+
+idempotent_install ()
+{
+  COMMAND=$1
+  shift
+  $(type $COMMAND >& /dev/null) || pkg_install "$@"
+}
+
+idempotent_install byobu    byobu
+idempotent_install htop     htop
+idempotent_install autojump autojump
