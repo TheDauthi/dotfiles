@@ -1,6 +1,6 @@
 - clean: ['~']
 - shell:
-    - mkdir -p ~/.shellrc/local.d ~/bin ~/.shellrc/login.d
+    - mkdir -p ~/.shellrc/local.d ~/bin ~/.shellrc/login.d ~/.byobu
     - bin/run-parts.sh install.d 
       #- ln -f -s $(realpath ~/.shellrc/dotfiles/bashrc) $(realpath ~/.bashrc)
       #- ln -f -s $(realpath ~/.shellrc/dotfiles/bash_profile) $(realpath ~/.bash_profile)
@@ -13,9 +13,10 @@
       create: true
       path: bin
     ~/.vimrc: vimrc
+    ~/.byobu/status: byobu/status
     ~/.bash_profile:
       relink: true
-      path: bash_profile
+      path: bash/bash_profile
     ~/.bashrc:
       relink: true
-      path: bashrc
+      path: bash/bashrc
