@@ -1,0 +1,7 @@
+screen_upper_left=""
+screen_upper_right=""
+screen_lower_left="session"
+screen_lower_right="date time"
+
+tmux_left=""
+tmux_right="date time"
