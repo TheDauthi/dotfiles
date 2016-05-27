@@ -1,15 +1,21 @@
-- clean: []
+- clean: ['~']
 - shell:
     - mkdir -p ~/.shellrc/local.d ~/bin ~/.shellrc/login.d
     - bin/run-parts.sh install.d 
-    - cp bashrc ~/.bashrc
-    - cp bash_profile ~/.bash_profile
+      #- ln -f -s $(realpath ~/.shellrc/dotfiles/bashrc) $(realpath ~/.bashrc)
+      #- ln -f -s $(realpath ~/.shellrc/dotfiles/bash_profile) $(realpath ~/.bash_profile)
+
 - link:
     ~/.shellrc/bashrc.d: 
-        create: true
-        path: bashrc.d/
+      create: true
+      path: bashrc.d/
     ~/.shellrc/bin:
-        create: true
-        path: bin
+      create: true
+      path: bin
     ~/.vimrc: vimrc
-    
+    ~/.bash_profile:
+      relink: true
+      path: bash_profile
+    ~/.bashrc:
+      relink: true
+      path: bashrc
