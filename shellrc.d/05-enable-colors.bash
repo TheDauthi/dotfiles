@@ -1,4 +1,4 @@
-if [ "`type -t dircolors`" = 'file' ]; then
+if [ ! -z "`type dircolors`" ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=always'
 

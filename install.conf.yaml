@@ -9,6 +9,12 @@
     ~/.shellrc/bashrc.d: 
       create: true
       path: bashrc.d/
+    ~/.shellrc/shellrc.d:
+      create: true
+      path: shellrc.d
+    ~/.shellrc/zshrc.d: 
+      create: true
+      path: zshrc.d/
     ~/.shellrc/bin:
       create: true
       path: bin
@@ -20,3 +26,6 @@
     ~/.bashrc:
       relink: true
       path: bash/bashrc
+    ~/.zshrc:
+      relink: true
+      path: zsh/zshrc

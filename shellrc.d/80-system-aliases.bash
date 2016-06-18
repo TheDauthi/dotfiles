@@ -1,4 +1,3 @@
-
 # prettify mount output by default
 mount ()
 {

@@ -15,12 +15,11 @@ if [[ $- != *i* ]] ; then
 fi
 
 # Load all files from .shell/bashrc.d directory
-if [ -d $HOME/.shellrc/bashrc.d ]; then
-  for file in $HOME/.shellrc/bashrc.d/*.bash; do
-    [ -e "$file" ] || break
-    source $file
-  done
-fi
+for file in $HOME/.shellrc/{shellrc.d,bashrc.d,local.d}/*; do
+  [ -e "$file" ] || break
+  source $file
+done
+
 
 if [ -f ~/.shellrc/local ]; then
     . ~/.shellrc/local
