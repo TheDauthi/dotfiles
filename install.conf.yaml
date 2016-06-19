@@ -2,6 +2,7 @@
 - shell:
     - mkdir -p ~/.shellrc/local.d ~/bin ~/.shellrc/login.d ~/.byobu
     - bin/run-parts.sh install.d 
+    - ["[ -d ~/.shellrc/oh-my-zsh ] || git clone -q https://github.com/robbyrussell/oh-my-zsh ~/.shellrc/oh-my-zsh", Installing oh-my-zsh]
       #- ln -f -s $(realpath ~/.shellrc/dotfiles/bashrc) $(realpath ~/.bashrc)
       #- ln -f -s $(realpath ~/.shellrc/dotfiles/bash_profile) $(realpath ~/.bash_profile)
 
