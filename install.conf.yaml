@@ -3,24 +3,26 @@
     - mkdir -p ~/.shellrc/local.d ~/bin ~/.shellrc/login.d ~/.byobu
     - bin/run-parts.sh install.d 
     - ["[ -d ~/.shellrc/oh-my-zsh ] || git clone -q https://github.com/robbyrussell/oh-my-zsh ~/.shellrc/oh-my-zsh", Installing oh-my-zsh]
-      #- ln -f -s $(realpath ~/.shellrc/dotfiles/bashrc) $(realpath ~/.bashrc)
-      #- ln -f -s $(realpath ~/.shellrc/dotfiles/bash_profile) $(realpath ~/.bash_profile)
 
 - link:
-    ~/.shellrc/bashrc.d: 
+    ~/.shellrc/init.d:
+      create: true
+      path: init/init.d
+    ~/.shellrc/init:
+      create: true
+      path: init/init
+    ~/.shellrc/bashrc.d:
       create: true
       path: bashrc.d/
     ~/.shellrc/shellrc.d:
       create: true
       path: shellrc.d
-    ~/.shellrc/zshrc.d: 
+    ~/.shellrc/zshrc.d:
       create: true
       path: zshrc.d/
     ~/.shellrc/bin:
       create: true
       path: bin
-    ~/.vimrc: vimrc
-    ~/.byobu/status: byobu/status
     ~/.bash_profile:
       relink: true
       path: bash/bash_profile
@@ -30,3 +32,8 @@
     ~/.zshrc:
       relink: true
       path: zsh/zshrc
+    ~/.vimrc: 
+      path: conf/vimrc
+    ~/.byobu/status: 
+      path: files/byobu/status
+    
