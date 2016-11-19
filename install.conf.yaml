@@ -20,6 +20,9 @@
     ~/.shellrc/zshrc.d:
       create: true
       path: zshrc.d/
+    ~/.shellrc/platform.d:
+      create: true
+      path: platform.d/
     ~/.shellrc/bin:
       create: true
       path: bin
