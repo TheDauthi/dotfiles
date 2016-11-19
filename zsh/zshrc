@@ -51,13 +51,10 @@ plugins=(git autojump sublime)
 
 source $ZSH/oh-my-zsh.sh
 
-for _shell_path in shellrc.d local.d zshrc.d; do
+for _shell_path in shellrc.d local.d zshrc.d "platform.d/${OSTYPE}"; do
   _load_shellrc_path $_shell_path
 done
 
-if [[ -f "platform.d/${OSTYPE}.d" ]]; then
-  _load_shellrc_path "platform.d/${OSTYPE}.d"
-fi
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
