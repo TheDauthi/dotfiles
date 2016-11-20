@@ -3,10 +3,14 @@ function git_prompt_status() {
 
   # A lookup table of each git status encountered
   local -A statuses_seen
-
+  local -A prefix_constant_map
+  local -A constant_prompt_map
+  local status_constants
+  local status_text
+  local status_lines
   # Maps a git status prefix to an internal constant
   # This cannot use the prompt constants, as they may be empty
-  local -A prefix_constant_map=(
+  prefix_constant_map=(
     '?? '       'UNTRACKED'
     'A  '       'ADDED'
     'M  '       'ADDED'
@@ -22,9 +26,8 @@ function git_prompt_status() {
     'diverged'  'DIVERGED'
     'stashed'   'STASHED'
   )
-
   # Maps the internal constant to the prompt theme
-  local -A constant_prompt_map=(
+  constant_prompt_map=(
     'UNTRACKED' "$ZSH_THEME_GIT_PROMPT_UNTRACKED"
     'ADDED'     "$ZSH_THEME_GIT_PROMPT_ADDED"
     'MODIFIED'  "$ZSH_THEME_GIT_PROMPT_MODIFIED"
@@ -38,10 +41,9 @@ function git_prompt_status() {
   )
 
   # The order that the prompt displays should be added to the prompt
-  local status_constants=(UNTRACKED ADDED MODIFIED RENAMED DELETED STASHED
-                          UNMERGED AHEAD BEHIND DIVERGED)
+  status_constants=(UNTRACKED ADDED MODIFIED RENAMED DELETED STASHED UNMERGED AHEAD BEHIND DIVERGED)
 
-  local status_text=$(command git status --porcelain -b 2> /dev/null)
+  status_text=$(command git status --porcelain -b 2> /dev/null)
 
   # Don't continue on a catastrophic failure
   if [[ $? -eq 128 ]]; then
@@ -52,7 +54,7 @@ function git_prompt_status() {
     statuses_seen['STASHED']=1
   fi
 
-  local status_lines=("${(@f)${status_text}}");
+  status_lines=("${(@f)${status_text}}");
 
   # If the tracking line exists, get and parse it
   if [[ $status_lines[1] =~ "^## [^ ]+ \[(.*)\]" ]]; then

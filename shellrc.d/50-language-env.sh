@@ -1,11 +1,17 @@
-#!/bin/bash
 # Sets up rbenv in our environment
-local languages=(rb pl py)
 
-for language in $languages; do
-  local virtualenv_path="$HOME/.${language}env"
-  if [ -d $virtualenv_path ]; then
-    pathprepend "$virtualenv_path/bin"
-    eval "$(${language}env init -)"
-  fi
+_env_languages=(rb pl py)
+
+_load_language_path()
+{
+    local language=$1
+    local virtualenv_path="$HOME/.${language}env"
+    if [ -d $virtualenv_path ]; then
+      pathprepend "$virtualenv_path/bin"
+      eval "$(${language}env init -)"
+    fi
+}
+
+for language in $_env_languages; do
+  _load_language_path $language
 done
