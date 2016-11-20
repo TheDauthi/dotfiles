@@ -17,9 +17,9 @@ _load_shellrc_path()
     local files=( $(find $_shellrc_path -type f -print | sort) )
 
     for file in $files; do
-#      echo "loading $file"
-#        [ -e "$file" ] || continue
-        source $file
+      echo "loading $file"
+      [ -e "$file" ] || continue
+      source $file
     done
 }
 
