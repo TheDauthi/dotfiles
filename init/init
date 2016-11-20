@@ -8,19 +8,19 @@
 _load_shellrc_path()
 {
     local _shellrc_path="$HOME/.shellrc/$1/"
-    local files
+#    local -a files
 
-    echo $_shellrc_path
+    echo "finding files in $_shellrc_path"
 
     if [[ ! -e "$_shellrc_path" ]]; then
       return 0
     fi
     files=( $(find $_shellrc_path -type f -print | sort) )
-
-    for file in $files; do
-#      echo "loading $file"
-      [ -e "$file" ] || continue
-      source $file
+    echo ${#files[@]}
+    for file in "${files[@]}"; do
+      echo "loading $file"
+#      [ -f "$file" ] || continue
+#      source $file
     done
 }
 

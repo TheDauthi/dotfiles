@@ -10,24 +10,3 @@ source $HOME/.shellrc/init
 for _shell_path in shellrc.d local.d bashrc.d "platform.d/${OSTYPE}"; do
     _load_shellrc_path $_shell_path
 done
-
-
-
-# Load all files from .shell/bashrc.d directory
-for file in $HOME/.shellrc/{shellrc.d,bashrc.d,local.d}/*; do
-  [ -e "$file" ] || break
-  source $file
-done
-
-
-if [ -f ~/.shellrc/local ]; then
-    . ~/.shellrc/local
-fi
-
-# Load all files from .shell/local.d directory
-if [ -d $HOME/.shellrc/local.d ]; then
-  for file in $HOME/.shellrc/local.d/*.bash; do
-    [ -e "$file" ] || break
-    source $file
-  done
-fi

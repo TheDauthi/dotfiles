@@ -4,8 +4,6 @@ source $HOME/.shellrc/init
 # Path to your oh-my-zsh installation.
 export ZSH=~/.shellrc/oh-my-zsh
 
-ZSH_THEME="babun"
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
