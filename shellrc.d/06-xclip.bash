@@ -1,6 +1,5 @@
 case $OSTYPE in
   linux*)
-    XCLIP=$(command -v xclip)
-    [[ $XCLIP ]] && alias pbcopy="$XCLIP -selection clipboard" && alias pbpaste="$XCLIP -selection clipboard -o"
-    ;;   
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
 esac

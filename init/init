@@ -1,0 +1,91 @@
+# Code needed to cleanly bootstrap the reset of shellrc
+
+# All code here should be run under any sh-compatible 
+# shell and under any environment given the GNU userland.
+# Attempts will be made to make the BSD userland work, too
+# but they are largely untested
+
+_load_shellrc_path()
+{
+    local _shellrc_path="$HOME/.shellrc/$1/"
+#    local -a files
+
+    echo "finding files in $_shellrc_path"
+
+    if [[ ! -e "$_shellrc_path" ]]; then
+      return 0
+    fi
+    files=( $(find $_shellrc_path -type f -print | sort) )
+    echo ${#files[@]}
+    for file in "${files[@]}"; do
+      echo "loading $file"
+#      [ -f "$file" ] || continue
+#      source $file
+    done
+}
+
+pathappend() {
+  for ARG in "$@"; do
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$ARG"
+    fi
+  done
+}
+
+pathprepend() {
+  for ARG in "$@"; do
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="$ARG${PATH:+":$PATH"}"
+    fi
+  done
+}
+
+# Removes duplicates from path.  Important on Cygwin.
+_cleanup_path() {
+  PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')  
+}
+
+# Environment detection functions
+is_osx() {
+  [[ "$OSTYPE" =~ "^darwin" ]] || return 1
+}
+
+is_debian() {
+  [[ -f /etc/debian_version ]] || return 1
+}
+
+is_cygwin() {
+  [[ "$(uname -s)" =~ "CYGWIN" ]] || return 1
+}
+
+_load_environment_init() {
+  local _shellrc_path="$HOME/.shellrc/init.d"
+  if is_debian; then
+    [ -f $_shellrc_path/init.debian ] && source $_shellrc_path/init.debian
+  elif is_osx; then
+    [ -f $_shellrc_path/init.osx ] && source $_shellrc_path/init.osx
+  elif is_cygwin; then
+    [ -f $_shellrc_path/init.cygwin ] && source $_shellrc_path/init.cygwin
+  fi
+}
+
+# Use declare, as "type" is slow in cygwin
+__is_callable() {
+	declare -Ff $1 > /dev/null; 
+	return $?
+}
+
+# This makes both the calling of this script 
+# and the _init_shellrc function itself idempotent
+# The function simply redefines itself after the first run.
+
+if ! __is_callable _init_shellrc ; then
+  _init_shellrc() {
+    # _load_environment_init
+    function _init_shellrc() {
+      : # sh is weird.  ":"" is the null command, but you can't have empty functions
+    }
+  }
+fi
+
+# # _init_shellrc
