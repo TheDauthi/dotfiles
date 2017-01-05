@@ -1,6 +1,6 @@
 #!/bin/bash
 # Sets up rbenv in our environment
-languages="rb pl py"
+languages=(rb pl py nod)
 
 for language in $languages
 do
