@@ -49,7 +49,7 @@ plugins=(git autojump sublime)
 
 source $ZSH/oh-my-zsh.sh
 
-for _shell_path in shellrc.d local.d zshrc.d "platform.d/${OSTYPE}"; do
+for _shell_path in login.d "platform.d/${OSTYPE}"; do
   _load_shellrc_path $_shell_path
 done
 

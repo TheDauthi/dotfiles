@@ -7,6 +7,6 @@ fi
 
 source $HOME/.shellrc/init
 
-for _shell_path in shellrc.d local.d bashrc.d "platform.d/${OSTYPE}"; do
+for _shell_path in login.d local.d "platform.d/${OSTYPE}"; do
     _load_shellrc_path $_shell_path
 done

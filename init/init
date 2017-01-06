@@ -5,23 +5,60 @@
 # Attempts will be made to make the BSD userland work, too
 # but they are largely untested
 
+# set -x
+
 _load_shellrc_path()
 {
     local _shellrc_path="$HOME/.shellrc/$1/"
-#    local -a files
+    local -a files
 
-    echo "finding files in $_shellrc_path"
-
-    if [[ ! -e "$_shellrc_path" ]]; then
+    if [ ! -e "$_shellrc_path" ]; then
       return 0
     fi
-    files=( $(find $_shellrc_path -type f -print | sort) )
-    echo ${#files[@]}
+
+    local shellregex=$(_build_load_regex)
+    echo $shellregex
+    files=( $(find $_shellrc_path -iregex "$shellregex" -type f -print | sort) )
+
     for file in "${files[@]}"; do
+      [ -e "$file" ] || continue
       echo "loading $file"
-#      [ -f "$file" ] || continue
-#      source $file
+      source $file
     done
+}
+
+_build_load_regex()
+{
+  local extension_regex
+  # Because this is slow on cygwin and join is single-char, 
+  # Do this with builtins... ugh.
+  local IFS=$' ' init_extensions=( $(_shell_init_extensions) )
+  current=0
+  for ((i=0; i<${#init_extensions[*]}; i++)); do
+    extension_regex+=".*\.${init_extensions[i]}"
+
+    if [ "$((i+1))" -lt "${#init_extensions[*]}" ]; then
+      extension_regex+="\|"
+    fi
+  done
+
+  echo $extension_regex
+}
+
+_detect_shell()
+{
+  ps -o command= -p $$
+}
+
+_load_shell_init()
+{
+  # # $SHELL is the "desired" shell in some cases, and we need the real thing
+  # RUNNING_SHELL=$(_detect_shell)
+  # local INIT_FILE="$HOME/.shellrc/shell.d/init.$RUNNING_SHELL"
+  local INIT_FILE="$HOME/.shellrc/shell.d/init.zsh"
+  if [[ -e $INIT_FILE ]]; then
+    source $INIT_FILE
+  fi
 }
 
 pathappend() {
@@ -81,11 +118,18 @@ __is_callable() {
 
 if ! __is_callable _init_shellrc ; then
   _init_shellrc() {
+    # Load shell-specific init functions
+    _load_shell_init
+
+    # Load encironment-specific init functions
     # _load_environment_init
+
+    # Redefine to make idempotent
+
     function _init_shellrc() {
       : # sh is weird.  ":"" is the null command, but you can't have empty functions
     }
   }
 fi
 
-# # _init_shellrc
+_init_shellrc
