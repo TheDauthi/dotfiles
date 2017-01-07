@@ -2,6 +2,8 @@
 
 # All code here should be run under any sh-compatible 
 # shell and under any environment given the GNU userland.
+# Code that cannot be made sh-compatible should go 
+# As a function into a shell-specific shell.d/init.$RUNNING_SHELL
 # Attempts will be made to make the BSD userland work, too
 # but they are largely untested
 
@@ -17,12 +19,11 @@ _load_shellrc_path()
     fi
 
     local shellregex=$(_build_load_regex)
-    echo $shellregex
+
     files=( $(find $_shellrc_path -iregex "$shellregex" -type f -print | sort) )
 
     for file in "${files[@]}"; do
       [ -e "$file" ] || continue
-      echo "loading $file"
       source $file
     done
 }
@@ -33,11 +34,14 @@ _build_load_regex()
   # Because this is slow on cygwin and join is single-char, 
   # Do this with builtins... ugh.
   local IFS=$' ' init_extensions=( $(_shell_init_extensions) )
-  current=0
-  for ((i=0; i<${#init_extensions[*]}; i++)); do
-    extension_regex+=".*\.${init_extensions[i]}"
+  
+  # zsh and bash use different start points, so use our own
+  i=0
 
-    if [ "$((i+1))" -lt "${#init_extensions[*]}" ]; then
+  for extension in "${init_extensions[@]}"; do
+    i=$((i + 1))
+    extension_regex+=".*\.${extension}"
+    if [ $i -lt "${#init_extensions[*]}" ]; then
       extension_regex+="\|"
     fi
   done
@@ -47,16 +51,18 @@ _build_load_regex()
 
 _detect_shell()
 {
-  ps -o command= -p $$
+  local SHELL_COMMAND=$(ps -o command= -p $$)
+  echo "$(basename $SHELL_COMMAND)"
 }
 
 _load_shell_init()
 {
-  # # $SHELL is the "desired" shell in some cases, and we need the real thing
-  # RUNNING_SHELL=$(_detect_shell)
-  # local INIT_FILE="$HOME/.shellrc/shell.d/init.$RUNNING_SHELL"
-  local INIT_FILE="$HOME/.shellrc/shell.d/init.zsh"
-  if [[ -e $INIT_FILE ]]; then
+  # $SHELL is the "desired" shell in some cases, and we need the real thing
+  RUNNING_SHELL=$(_detect_shell)
+
+  local INIT_FILE="$HOME/.shellrc/shell.conf.d/init.$RUNNING_SHELL"
+
+  if [ -e $INIT_FILE ]; then
     source $INIT_FILE
   fi
 }
@@ -118,7 +124,11 @@ __is_callable() {
 
 if ! __is_callable _init_shellrc ; then
   _init_shellrc() {
+    _load_shell_init
     # Load shell-specific init functions
+    _load_shellrc_path 'init.d'
+   
+    # The previous can overwrite these in a few rare cases.
     _load_shell_init
 
     # Load encironment-specific init functions
@@ -127,7 +137,7 @@ if ! __is_callable _init_shellrc ; then
     # Redefine to make idempotent
 
     function _init_shellrc() {
-      : # sh is weird.  ":"" is the null command, but you can't have empty functions
+       : # sh is weird.  ":"" is the null command, but you can't have empty functions
     }
   }
 fi

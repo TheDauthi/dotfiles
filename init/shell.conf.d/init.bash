@@ -18,6 +18,5 @@
 
 _shell_init_extensions()
 {
-  echo "ASDF"
   echo 'bash sh'
 }

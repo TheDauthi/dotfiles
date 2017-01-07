@@ -1,4 +1,7 @@
 # Initialize shellrc
+
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+
 source $HOME/.shellrc/init
 
 # Path to your oh-my-zsh installation.
@@ -49,7 +52,7 @@ plugins=(git autojump sublime)
 
 source $ZSH/oh-my-zsh.sh
 
-for _shell_path in login.d "platform.d/${OSTYPE}"; do
+for _shell_path in shellrc.d "platform.d/${OSTYPE}"; do
   _load_shellrc_path $_shell_path
 done
 
@@ -59,3 +62,4 @@ done
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+

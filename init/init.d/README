@@ -1,0 +1,3 @@
+# These files are run as soon as the global init process has finished
+# This allows one to set up hooks that run before other major startup processes
+# e.g. oh-my-zsh
