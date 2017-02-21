@@ -1,0 +1,54 @@
+#!/bin/bash
+# Connects to a remote server, creating a reverse connection 
+# to the server you're connecting from
+REMOTE_PORT=2210
+
+function connect() 
+{
+  echo -e $(port_text)
+  echo -e $(rsync_text)
+  echo -e $(separator)
+
+  exec ssh -R "${REMOTE_PORT}:localhost:22" "$@"
+}
+
+# I prefer being able to read what's being generated
+# to conciseness
+# And I find dealing with inline ANSI codes really hard to read
+
+red='\e[31m'
+green='\e[32m'
+nofmt='\e[0m'
+cyan='\e[36m'
+
+function separator()
+{
+  SEPERATOR_LINE=$(printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -)
+  echo "${cyan}${SEPERATOR_LINE}${nofmt}"
+}
+
+function rsync_text() {
+  # The destination
+  local rsync_dest="${USER}@127.0.0.1:[DEST]"
+
+  # The 'connect' command for rsync
+  local connect_command="ssh -p ${REMOTE_PORT}"
+  
+  # Change the connect command to an rsync option
+  connect_command="-e '${connect_command}'"
+
+  # The actual rsync command
+  local rsync_command="rsync -avc"
+
+  local help_text='RSYNC WITH: '
+  
+  echo "${red}${help_text}${green} ${rsync_command} ${connect_command} [SRC] ${rsync_dest}${nofmt}"
+}
+
+function port_text() 
+{
+  local help_text="REMOTE PORT:"
+  echo "${red}${help_text} ${green}$REMOTE_PORT${nofmt}"
+}
+
+connect "$@"
