@@ -51,9 +51,10 @@ _build_load_regex()
 
 _detect_shell()
 {
-  local SHELL_COMMAND=$(ps -o command= -p $$)
-  echo "$(basename $SHELL_COMMAND)"
+  local SHELL_COMMAND=$(ps -p $$ | awk '$1 == PP {print $4}' PP=$$)
+  echo $SHELL_COMMAND
 }
+
 
 _load_shell_init()
 {
