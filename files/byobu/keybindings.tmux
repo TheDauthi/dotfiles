@@ -15,3 +15,6 @@ bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft=
 bind -n C-WheelUpPane select-pane -t= \; copy-mode -e \; send-keys -M
 bind -t vi-copy    C-WheelUpPane   halfpage-up
 bind -t vi-copy    C-WheelDownPane halfpage-down
+
+# bind C-y run "tmux show-buffer | xclip -i"
+# bind C-p run "tmux set-buffer \"$(xclip -o)\"; tmux paste-buffer"
