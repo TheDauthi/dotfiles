@@ -7,7 +7,8 @@ upto()
     cd "${PWD/\/$upto\/*//$upto}"
 }
 
-function up {
+function up()
+{
     if [[ "$#" < 1 ]] ; then
         cd ..
     else

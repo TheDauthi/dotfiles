@@ -1,4 +1,4 @@
-cdp () 
+cdp() 
 {
   PT=$(pwd)
   while [[ "$PT" != "" && ! -e "$PT/.git" ]]; do
