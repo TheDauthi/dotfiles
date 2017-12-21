@@ -7,3 +7,4 @@ if [ ! -z "`type dircolors`" ]; then
     alias egrep='egrep --color=auto'
 fi
 
+export CLICOLOR=1
