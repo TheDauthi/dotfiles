@@ -52,7 +52,14 @@ _build_load_regex()
 _detect_shell()
 {
   local SHELL_COMMAND=$(basename $(ps -p $$ | tail -1 | awk '{print $NF}'))
-  echo $SHELL_COMMAND
+
+  if [[ "$SHELL_COMMAND" =~ bash ]]; then
+    echo 'bash';   
+  elif [[ "$SHELL_COMMAND" =~ zsh ]]; then
+    echo 'zsh';   
+  else
+    echo 'bash'
+  fi
 }
 
 
