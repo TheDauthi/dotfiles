@@ -49,14 +49,18 @@ _build_load_regex()
   echo $extension_regex
 }
 
+###
+# There are several cases during load where $SHELL isn't correct
+# We need to detect the actual shell during load, so we can avoid
+# trying to init the incorrect one.
 _detect_shell()
 {
   local SHELL_COMMAND=$(basename $(ps -p $$ | tail -1 | awk '{print $NF}'))
 
   if [[ "$SHELL_COMMAND" =~ bash ]]; then
-    echo 'bash';   
+    echo 'bash';
   elif [[ "$SHELL_COMMAND" =~ zsh ]]; then
-    echo 'zsh';   
+    echo 'zsh';
   else
     echo 'bash'
   fi
@@ -65,7 +69,6 @@ _detect_shell()
 
 _load_shell_init()
 {
-  # $SHELL is the "desired" shell in some cases, and we need the real thing
   RUNNING_SHELL=$(_detect_shell)
 
   local INIT_FILE="$HOME/.shellrc/shell.conf.d/init.$RUNNING_SHELL"
@@ -91,22 +94,55 @@ pathprepend() {
   done
 }
 
-# Removes duplicates from path.  Important on Cygwin.
+# Removes duplicates from path. Important on Cygwin.
 _cleanup_path() {
   PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')  
 }
 
+###
+# Detect platform
+_detect_platform() {
+  _PLATFORM='unknown'
+  _RELEASE='unknown'
+  
+  local _uname=$(uname  | tr '[A-Z]' '[a-z]')
+
+  if [[ "$_uname" =~ 'linux' ]]; then
+    _PLATFORM='linux'
+  elif [[ "$_uname" =~ '^darwin' ]]; then
+    _PLATFORM='darwin'
+  elif [[ "$_uname" =~ 'bsd' ]]; then
+    _PLATFORM='bsd'
+  elif [[ "$_uname" =~ 'cygwin' ]]; then
+    _PLATFORM='cygwin'
+  fi
+
+  if [[ -f /etc/debian_version ]]; then
+    _RELEASE='debian'
+  elif [[ "$_uname" =~ 'freebsd' ]]; then
+    _RELEASE='freebsd'
+  fi
+}
+
 # Environment detection functions
 is_osx() {
-  [[ "$OSTYPE" =~ "^darwin" ]] || return 1
+  [[ "$_PLATFORM" =~ "darwin" ]] || return 1
 }
 
 is_debian() {
-  [[ -f /etc/debian_version ]] || return 1
+  [[ "$_RELEASE" =~ 'debian' ]] || return 1
 }
 
 is_cygwin() {
-  [[ "$(uname -s)" =~ "CYGWIN" ]] || return 1
+  [[ "$_PLATFORM" =~ "cygwin" ]] || return 1
+}
+
+is_bsd() {
+  [[ "$_PLATFORM" =~ "bsd" ]] || return 1
+}
+
+is_linux() {
+  [[ "$_PLATFORM" =~ "linux" ]] || return 1
 }
 
 _load_environment_init() {
@@ -132,6 +168,8 @@ __is_callable() {
 
 if ! __is_callable _init_shellrc ; then
   _init_shellrc() {
+    _detect_platform
+
     _load_shell_init
     # Load shell-specific init functions
     _load_shellrc_path 'init.d'
