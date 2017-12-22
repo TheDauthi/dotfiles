@@ -144,6 +144,16 @@ is_linux() {
   [[ "$_PLATFORM" =~ "linux" ]] || return 1
 }
 
+is_zsh() {
+  local RUNNING_SHELL="$(_detect_shell)"
+  [[ "${RUNNING_SHELL}" == "zsh" ]] || return 1
+}
+
+is_bash() {
+  local RUNNING_SHELL="$(_detect_shell)"
+  [[ "${RUNNING_SHELL}" == "bash" ]] || return 1;
+}
+
 _load_environment_init() {
   local _shellrc_path="$HOME/.shellrc/init.d"
   if is_debian; then
