@@ -11,7 +11,7 @@ On OSX, install [brew](http://brew.sh) first. The install in setup.d should work
 
 I use [dotbot](https://github.com/anishathalye/dotbot) to manage my dotfiles, installing the repository itself into `.shellrc/dotfiles`.  I then symlink the directories into the .shellrc directory, which is what is actually included into PATH. Most importantly, this allows another user to load the shellrc without issue, usually useful for shared settings or after a su login. The top level `.shellrc` will also have `local.d` a directory, which contain machine-specific settings.
 
-One thing that a user might want to change is the use of byobu to tmux. I haven't because byobu has given me better  cross-platform terminal reconnection.
+One thing that a user might want to change is the use of byobu to tmux. I haven't because byobu has given me better cross-platform terminal reconnection.
 
 ### Structure
 The top-level directory in my home that contains my dotfiles is called `.shellrc`.  This directory contains the git repository itself and all of the necessary directories.
@@ -35,6 +35,14 @@ As well as scripts:
 - pid: Retrieves the pid of executables matching an expression
 - run-parts.sh: run-parts is a well-known script, but it doesn't exist everywhere. This is a pure-shell implementation giving 95% of the features.
 - serve: the old python http program
+
+### I don't have git! I don't have python!
+
+Well, you're in luck. While you lose some of the niceties, the majority of this will work.
+
+```bash
+mkdir -p ~/.shellrc/dotfiles && curl -L --output - https://github.com/TheDauthi/dotfiles/archive/master.tar.gz | tar -C ~/.shellrc/dotfiles --strip-components 1 -xzf - 
+```
 
 
 ### Rationale
