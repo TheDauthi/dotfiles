@@ -1,2 +1,4 @@
-source ~/.shellrc/plugins/fasd/fasd
-alias j='fasd_cd -d'
+if ! command -v fasd &> /dev/null; then
+  source ~/.shellrc/plugins/fasd/fasd
+  alias j='fasd_cd -d'
+fi
