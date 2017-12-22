@@ -1,33 +1,33 @@
 # Code needed to cleanly bootstrap the reset of shellrc
 
-# All code here should be run under any sh-compatible 
-# shell and under any environment given the GNU userland.
-# Code that cannot be made sh-compatible should go 
-# As a function into a shell-specific shell.d/init.$RUNNING_SHELL
-# Attempts will be made to make the BSD userland work, too
-# but they are largely untested
+# Code here should run under any sh-compatible shell and environment.
+# Avoid userland type detection during bootstrap.
+# Code that cannot be made sh-compatible should go into the shell-specific 
+# shell.d/init.$RUNNING_SHELL
 
-# set -x
-
+###
+# Loads files in the given shellrc path that can are compatabible with the current environment
 _load_shellrc_path()
 {
-    local _shellrc_path="$HOME/.shellrc/$1/"
+    local _shellrc_path="${HOME}/.shellrc/$1/"
     local -a files
 
-    if [ ! -e "$_shellrc_path" ]; then
+    if [[ ! -e "${_shellrc_path}" ]]; then
       return 0
     fi
 
     local shellregex=$(_build_load_regex)
-    
-    files=( $(find $_shellrc_path -iregex "$shellregex" -type f -print | sort) )
+
+    files=( $(find "${_shellrc_path}" -iregex "${shellregex}" -type f -print | sort) )
 
     for file in "${files[@]}"; do
-      [ -e "$file" ] || continue
-      source $file
+      [ -e "${file}" ] || continue
+      source "${file}"
     done
 }
 
+###
+# Generates a regular expression that can find compatible scripts
 _build_load_regex()
 {
   local extension_regex
@@ -57,9 +57,9 @@ _detect_shell()
 {
   local SHELL_COMMAND=$(basename $(ps -p $$ | tail -1 | awk '{print $NF}'))
 
-  if [[ "$SHELL_COMMAND" =~ bash ]]; then
+  if [[ "${SHELL_COMMAND}" =~ bash ]]; then
     echo 'bash';
-  elif [[ "$SHELL_COMMAND" =~ zsh ]]; then
+  elif [[ "${SHELL_COMMAND}" =~ zsh ]]; then
     echo 'zsh';
   else
     echo 'bash'
@@ -70,10 +70,10 @@ _load_shell_init()
 {
   RUNNING_SHELL=$(_detect_shell)
 
-  local INIT_FILE="$HOME/.shellrc/shell.conf.d/init.$RUNNING_SHELL"
+  local INIT_FILE="${HOME}/.shellrc/shell.conf.d/init.${RUNNING_SHELL}"
 
-  if [ -e $INIT_FILE ]; then
-    source $INIT_FILE
+  if [ -e "${INIT_FILE}" ]; then
+    source "${INIT_FILE}"
   fi
 }
 
@@ -106,42 +106,42 @@ _detect_platform() {
   
   local _uname=$(uname  | tr '[A-Z]' '[a-z]')
 
-  if [[ "$_uname" =~ 'linux' ]]; then
+  if [[ "${_uname}" =~ 'linux' ]]; then
     _PLATFORM='linux'
-  elif [[ "$_uname" =~ '^darwin' ]]; then
+  elif [[ "${_uname}" =~ '^darwin' ]]; then
     _PLATFORM='darwin'
-  elif [[ "$_uname" =~ 'bsd' ]]; then
+  elif [[ "${_uname}" =~ 'bsd' ]]; then
     _PLATFORM='bsd'
-  elif [[ "$_uname" =~ 'cygwin' ]]; then
+  elif [[ "${_uname}" =~ 'cygwin' ]]; then
     _PLATFORM='cygwin'
   fi
 
   if [[ -f /etc/debian_version ]]; then
     _RELEASE='debian'
-  elif [[ "$_uname" =~ 'freebsd' ]]; then
+  elif [[ "${_uname}" =~ 'freebsd' ]]; then
     _RELEASE='freebsd'
   fi
 }
 
 # Environment detection functions
 is_osx() {
-  [[ "$_PLATFORM" =~ "darwin" ]] || return 1
+  [[ "${_PLATFORM}" =~ "darwin" ]] || return 1
 }
 
 is_debian() {
-  [[ "$_RELEASE" =~ 'debian' ]] || return 1
+  [[ "${_RELEASE}" =~ 'debian' ]] || return 1
 }
 
 is_cygwin() {
-  [[ "$_PLATFORM" =~ "cygwin" ]] || return 1
+  [[ "${_PLATFORM}" =~ "cygwin" ]] || return 1
 }
 
 is_bsd() {
-  [[ "$_PLATFORM" =~ "bsd" ]] || return 1
+  [[ "${_PLATFORM}" =~ "bsd" ]] || return 1
 }
 
 is_linux() {
-  [[ "$_PLATFORM" =~ "linux" ]] || return 1
+  [[ "${_PLATFORM}" =~ "linux" ]] || return 1
 }
 
 is_zsh() {
@@ -155,19 +155,20 @@ is_bash() {
 }
 
 _load_environment_init() {
-  local _shellrc_path="$HOME/.shellrc/init.d"
+  local _shellrc_path="${HOME}/.shellrc/init.d"
+
   if is_debian; then
-    [ -f $_shellrc_path/init.debian ] && source $_shellrc_path/init.debian
+    [ -f "${_shellrc_path}/init.debian" ] && source "${_shellrc_path}/init.debian"
   elif is_osx; then
-    [ -f $_shellrc_path/init.osx ] && source $_shellrc_path/init.osx
+    [ -f "${_shellrc_path}/init.osx" ] && source "${_shellrc_path}/init.osx"
   elif is_cygwin; then
-    [ -f $_shellrc_path/init.cygwin ] && source $_shellrc_path/init.cygwin
+    [ -f "${_shellrc_path}/init.cygwin" ] && source "${_shellrc_path}/init.cygwin"
   fi
 }
 
 # Use declare, as "type" is slow in cygwin
 __is_callable() {
-	declare -Ff $1 > /dev/null; 
+	declare -Ff "$1" > /dev/null; 
 	return $?
 }
 
@@ -192,7 +193,7 @@ if ! __is_callable _init_shellrc ; then
     # Redefine to make idempotent
 
     function _init_shellrc() {
-       : # sh is weird.  ":"" is the null command, but you can't have empty functions
+       : # sh is weird.  ":" is the null command, but you can't have empty functions
     }
   }
 fi
