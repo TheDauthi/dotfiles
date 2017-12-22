@@ -8,11 +8,6 @@ source '.installer/python.lib.sh'
 
 #CONFIG="install.conf.yaml"
 
-DOTBOT_DIR=".installer/dotbot"
-DOTBOT_BIN="${DOTBOT_DIR}/bin/dotbot"
-
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-cd "${BASEDIR}"
 
 _install_via_dotbot $BASEDIR 

@@ -20,10 +20,13 @@ function _can_run_dotbot() {
 
 function _install_via_dotbot() {
   local BASEDIR=$(realpath $1)
+  shift
 
-  local CONFIG=$(realpath "${BASEDIR}/install.conf.yaml")
-  local DOTBOT_DIR=$(realpath "${BASEDIR}/.installer/dotbot")
-  local DOTBOT_BIN=$(realpath "${DOTBOT_DIR}/bin/dotbot")
+  cd "${BASEDIR}"
+
+  local CONFIG="${BASEDIR}/install.conf.yaml"
+  local DOTBOT_DIR="${BASEDIR}/.installer/dotbot"
+  local DOTBOT_BIN="${DOTBOT_DIR}/bin/dotbot"
 
   if ! _has_git; then
     echo "Cannot use dotbot: git not found"
@@ -35,8 +38,9 @@ function _install_via_dotbot() {
 
   echo "installing via dotbot"
 
-  git submodule update --init --recursive "${DOTBOT_DIR}"
-  # _LINKED_PYTHON=$(_find_python)
+  git submodule update --init --recursive
+  
+  _LINKED_PYTHON=$(_find_python)
     
-  # echo "${_LINKED_PYTHON}" "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+  "${_LINKED_PYTHON}" "${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 }
