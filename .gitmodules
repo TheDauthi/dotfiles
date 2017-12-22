@@ -1,3 +1,6 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
+[submodule "files/plugins/fasd"]
+	path = files/plugins/fasd
+	url = https://github.com/clvv/fasd.git
