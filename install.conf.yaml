@@ -1,8 +1,7 @@
 - clean: ['~']
 - shell:
-    - mkdir -p ~/.shellrc/local.d ~/bin ~/.byobu
+    - mkdir -p ~/.shellrc/local.d ~/bin ~/.byobu ~/.shellrc/plugins
     - bin/run-parts.sh install.d 
-
 
 - link:
     ~/.shellrc/init:
@@ -41,3 +40,6 @@
       path: files/byobu/status
     ~/.byobu/keybindings.tmux:
       path: files/byobu/keybindings.tmux
+    ~/.shellrc/plugins/fasd:
+      create: true
+      path: files/plugins/fasd
