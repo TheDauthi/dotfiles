@@ -9,6 +9,46 @@ DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "${BASEDIR}"
-git submodule update --init --recursive "${DOTBOT_DIR}"
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+_find_python() {
+  _LINKED_PYTHON=$(command -v python python2 python2.6 python2.7 python3 | head -n 1)
+  
+  if [[ ! -z "$_LINKED_PYTHON" ]]; then
+    echo "$_LINKED_PYTHON"
+    return 0
+  fi
+
+  _LINKED_PYTHON=command -v $(compgen -c | grep 'python' | head -n1)
+  
+  if [[ ! -z "$_LINKED_PYTHON" ]]; then
+    echo "$_LINKED_PYTHON"
+    return 0  
+  fi
+
+  return 1
+}
+
+_can_run_dotbot() {
+  local _LINKED_PYTHON=_find_python
+
+  if [[ ! -z "$_LINKED_PYTHON" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+_has_git() {
+  [[ "$(command -v git &> /dev/null)" ]] || return 1
+}
+
+if ! _has_git; then
+  echo "Cannot use dotbot: git not found"
+  git submodule update --init --recursive "${DOTBOT_DIR}"
+elif ! _has_python; then
+  echo "Cannot use dotbot: python not found"
+else
+  _LINKED_PYTHON=$(_find_python)
+    
+  "${_LINKED_PYTHON}" "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+fi
