@@ -3,4 +3,4 @@
 	url = https://github.com/anishathalye/dotbot
 [submodule "files/plugins/fasd"]
 	path = files/plugins/fasd
-	url = https://github.com/clvv/fasd.git
+	url = https://github.com/whjvenyl/fasd
