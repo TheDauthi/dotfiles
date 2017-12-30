@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
-source "$(dirname $0)/.install/lib/path.lib.sh"
-source "$(dirname $0)/.install/lib/install.lib.sh"
+SCRIPT_PATH="$(dirname $0)"
+
+source "${SCRIPT_PATH}/.installer/lib/path.lib.sh"
+source "${SCRIPT_PATH}/.installer/lib/install.lib.sh"
 
 SHELLRC_PATH=${SHELLRC_PATH:-~/.shellrc}
 
-mkdir -p "$HOME/.shellrc/local.d" "$HOME/bin" "$HOME/.byobu" "$HOME/.shellrc/plugins"
+mkdir -p "${HOME}/.shellrc/local.d" "${HOME}/bin" "${HOME}/.byobu" "${HOME}/.shellrc/plugins"
 
 # Clean up broken symlinks
-find "$HOME" -maxdepth 1 -xtype l -delete
+find "${HOME}" -maxdepth 1 -xtype l -delete
 
-cd "$SHELLRC_PATH"
+cd "${SHELLRC_PATH}"
 
 install_or_warn "dotfiles/bin" "bin"
 
@@ -20,7 +22,7 @@ for path in "${paths[@]}"; do
   install_or_warn "dotfiles/init/${path}" "${path}"
 done
 
-cd "$HOME"
+cd "${HOME}"
 
 declare -A DOTMAP=(
   [.bashrc]=files/bash/bashrc
@@ -34,7 +36,7 @@ declare -A DOTMAP=(
 
 for file in "${!DOTMAP[@]}"; do
   DOTFILE="${SHELLRC_PATH}/dotfiles/${DOTMAP[$file]}"
-  DOTFILE=$(real_to_abspath $HOME $DOTFILE)
+  DOTFILE=$(real_to_abspath "${HOME}" "${DOTFILE}")
   
-  install_or_warn "$DOTFILE" "$file"
+  install_or_warn "${DOTFILE}" "${file}"
 done
