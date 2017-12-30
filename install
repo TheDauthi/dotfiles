@@ -1,13 +1,40 @@
 #!/usr/bin/env bash
 
-set -e
+source "$(dirname $0)/.install/lib/path.lib.sh"
+source "$(dirname $0)/.install/lib/install.lib.sh"
 
-source '.installer/utilities.lib.sh'
-source '.installer/dotbot.lib.sh'
-source '.installer/python.lib.sh'
+SHELLRC_PATH=${SHELLRC_PATH:-~/.shellrc}
 
-#CONFIG="install.conf.yaml"
+mkdir -p "$HOME/.shellrc/local.d" "$HOME/bin" "$HOME/.byobu" "$HOME/.shellrc/plugins"
 
-BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Clean up broken symlinks
+find "$HOME" -maxdepth 1 -xtype l -delete
 
-_install_via_dotbot $BASEDIR 
+cd "$SHELLRC_PATH"
+
+install_or_warn "dotfiles/bin" "bin"
+
+declare -a paths=("init" "init.d" "login.d" "platform.d" "shell.conf.d" "shellrc.d" )
+
+for path in "${paths[@]}"; do
+  install_or_warn "dotfiles/init/${path}" "${path}"
+done
+
+cd "$HOME"
+
+declare -A DOTMAP=(
+  [.bashrc]=files/bash/bashrc
+  [.bash_profile]=files/bash/bash_profile
+  [.zshrc]=files/zsh/zshrc
+  [.vimrc]=files/vim/vimrc
+  [.byobu/status]=files/byobu/status
+  [.byobu/keybindings.tmux]=files/byobu/keybindings.tmux
+  [.shellrc/plugins/fasd]=files/plugins/fasd
+) 
+
+for file in "${!DOTMAP[@]}"; do
+  DOTFILE="${SHELLRC_PATH}/dotfiles/${DOTMAP[$file]}"
+  DOTFILE=$(real_to_abspath $HOME $DOTFILE)
+  
+  install_or_warn "$DOTFILE" "$file"
+done
