@@ -3,6 +3,7 @@
 SCRIPT_PATH="$(dirname $0)"
 
 source "${SCRIPT_PATH}/.installer/lib/path.lib.sh"
+source "${SCRIPT_PATH}/.installer/lib/logging.lib.sh"
 source "${SCRIPT_PATH}/.installer/lib/install.lib.sh"
 
 SHELLRC_PATH=${SHELLRC_PATH:-~/.shellrc}
@@ -14,12 +15,12 @@ find "${HOME}" -maxdepth 1 -xtype l -delete
 
 cd "${SHELLRC_PATH}"
 
-install_or_warn "dotfiles/bin" "bin"
+link_file "dotfiles/bin" "bin"
 
 declare -a paths=("init" "init.d" "login.d" "platform.d" "shell.conf.d" "shellrc.d" )
 
 for path in "${paths[@]}"; do
-  install_or_warn "dotfiles/init/${path}" "${path}"
+  link_file "dotfiles/init/${path}" "${path}"
 done
 
 cd "${HOME}"
@@ -37,6 +38,5 @@ declare -A DOTMAP=(
 for file in "${!DOTMAP[@]}"; do
   DOTFILE="${SHELLRC_PATH}/dotfiles/${DOTMAP[$file]}"
   DOTFILE=$(real_to_abspath "${HOME}" "${DOTFILE}")
-  
-  install_or_warn "${DOTFILE}" "${file}"
+  link_file "${DOTFILE}" "${file}"
 done
