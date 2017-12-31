@@ -37,4 +37,3 @@ Ex: getent passwd | grep root | fawk -F: 5
   fi
   awk $rest "{ print  \$$last }"
 }
-
