@@ -1,7 +1,7 @@
 _upto_zsh() 
 {
     local parents;
-    parents=(${(s:/:)PWD});
+    local parents=(${(s:/:)PWD});
     compadd -V 'Parent Dirs' -- "${(Oa)parents[@]}";
 }
 
