@@ -1,21 +1,14 @@
+####
+# upto: Find parents
 upto()
 {
-    if [ -z "$1" ]; then
-        return
-    fi
+  if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then cat <<HELP
+upto
+Usage: upto [ parent ]
+
+Change to parent directory named parent. Provides shell completion.
+HELP
+return; fi
     local upto=$1
     cd "${PWD/\/$upto\/*//$upto}"
-}
-
-function up()
-{
-    if [[ "$#" < 1 ]] ; then
-        cd ..
-    else
-        CDSTR=""
-        for i in {1..$1} ; do
-            CDSTR="../$CDSTR"
-        done
-        cd $CDSTR
-    fi
 }
