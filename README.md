@@ -2,19 +2,19 @@
 
 ### Installation
 ```bash
-git clone https://github.com/TheDauthi/dotfiles.git ~/.shellrc/dotfiles && bash ~/.shellrc/dotfiles/install
+git clone --recursive https://github.com/TheDauthi/dotfiles.git ~/.shellrc/dotfiles && bash ~/.shellrc/dotfiles/install
 ```
 
-My dotfiles should work on OSX, linux, and Cygwin.  They're based on a fairly bare-bones Debian setup, as that's what I spend most of my time inside.  On OSX, I use [brew](http://brew.sh), and as much of the GNU userland as possible.  I use zsh with oh-my-zsh, but this setup also supports bash/bash-completion if zsh is not installed. On OSX, I install the GNU toolset in place of most of the BSD ones. While most scripts support BSD, I don't test there.
+My dotfiles should work on OSX, linux, and Cygwin.  They're based on a fairly bare-bones Debian setup, as that's what I spend most of my time inside.  On OSX, I use [brew](http://brew.sh), and as much of the GNU userland as possible.  I use zsh with oh-my-zsh, but this setup also supports bash/bash-completion if zsh is not installed. On OSX, I install the GNU toolset in place of most of the BSD ones. I test with BSD, but the GNU toolchain is more familiar to me.
 
 On OSX, install [brew](http://brew.sh) first. The install in setup.d should work, but it's not called automatically on setup in case there is an existing brew install that you don't want to overwrite.
 
-I use [dotbot](https://github.com/anishathalye/dotbot) to manage my dotfiles, installing the repository itself into `.shellrc/dotfiles`.  I then symlink the directories into the .shellrc directory, which is what is actually included into PATH. Most importantly, this allows another user to load the shellrc without issue, usually useful for shared settings or after a su login. The top level `.shellrc` will also have `local.d` a directory, which contain machine-specific settings.
+First, we checkout the repository into .shellrc/dotfiles. Then we symlink the directories into the .shellrc directory, which is what is actually included into PATH. Most importantly, this allows another user to load the shellrc without issue, usually useful for shared settings or after a su login. The top level `.shellrc` will also have `local.d` a directory, which contain machine-specific settings.
 
 One thing that a user might want to change is the use of byobu to tmux. I haven't because byobu has given me better cross-platform terminal reconnection.
 
 ### Structure
-The top-level directory in my home that contains my dotfiles is called `.shellrc`.  This directory contains the git repository itself and all of the necessary directories.
+The top-level directory in my home that contains my dotfiles is called `.shellrc`.  This directory contains the git repository itself and all of the necessary directories. The dotfiles themselves are one layer down, in `.shellrc/dotfiles`. Files directly part of an application's startup process are in the files directory under that, while the init directory contains the shell bootstrap process.
 
 ### Included
 
@@ -36,14 +36,16 @@ As well as scripts:
 - run-parts.sh: run-parts is a well-known script, but it doesn't exist everywhere. This is a pure-shell implementation giving 95% of the features.
 - serve: the old python http program
 
-### I don't have git! I don't have python!
+### I don't have git!
 
-Well, you're in luck. While you lose some of the niceties, the majority of this will work.
+Well, you're in luck. While you lose the ability to load the plugins, the install itself can be performed via curl.
 
 ```bash
-mkdir -p ~/.shellrc/dotfiles && curl -L --output - https://github.com/TheDauthi/dotfiles/archive/master.tar.gz | tar -C ~/.shellrc/dotfiles --strip-components 1 -xzf - 
+mkdir -p ~/.shellrc/dotfiles && curl -L --output - https://github.com/TheDauthi/dotfiles/archive/master.tar.gz | tar -C ~/.shellrc/dotfiles --strip-components 1 -xzf - && bash ~/.shellrc/dotfiles/install
 ```
 
+### I don't want to install anything!
 
-### Rationale
-For years, I've hesitated committing dotfiles to source control.  "I don't have a lot in there," I said.  "I don't want to have to set it up on every machine I work on," I said.  I don't have a fancy `.vimrc`, or use zsh.
+Cool. There is a greatly stripped down version of this that installs nothing to your machine:
+
+`source <(curl billyconn.com/sh)`
