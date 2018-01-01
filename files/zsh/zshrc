@@ -1,6 +1,7 @@
 # Initialize shellrc
-set -x
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+if command -v byobu-launch; then
+  _byobu_sourced=1 . "$(command -v byobu-launch)" 2>/dev/null || true
+fi
 
 source $HOME/.shellrc/init
 
