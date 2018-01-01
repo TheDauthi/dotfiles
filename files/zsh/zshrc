@@ -1,5 +1,5 @@
 # Initialize shellrc
-
+set -x
 _byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
 
 source $HOME/.shellrc/init
@@ -51,7 +51,9 @@ plugins=(git fasd sublime dircycle)
 # export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-source $ZSH/oh-my-zsh.sh
+if [ -e "$ZSH/oh-my-zsh.sh" ]; then
+  source $ZSH/oh-my-zsh.sh
+fi
 
 for _shell_path in shellrc.d "platform.d/${OSTYPE}"; do
   _load_shellrc_path $_shell_path
