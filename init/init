@@ -18,7 +18,7 @@ _load_shellrc_path()
 
     local shellregex=$(_build_load_regex)
 
-    files=( $(find "${_shellrc_path}" -iregex "${shellregex}" -type f -print | sort) )
+    files=( $(find -E "${_shellrc_path}" -iregex "${shellregex}" -type f -print | sort) )
 
     for file in "${files[@]}"; do
       [ -e "${file}" ] || continue
@@ -42,7 +42,7 @@ _build_load_regex()
     i=$((i + 1))
     extension_regex+=".*\.${extension}"
     if [ $i -lt "${#init_extensions[*]}" ]; then
-      extension_regex+="\|"
+      extension_regex+='|'
     fi
   done
 
