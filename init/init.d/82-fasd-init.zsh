@@ -1,1 +1,3 @@
-eval "$(fasd --init posix-alias zsh-hook)"
+if command -v fasd &> /dev/null; then
+  eval "$(fasd --init posix-alias zsh-hook)"
+fi
