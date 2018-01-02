@@ -11,6 +11,3 @@ bind -n M-Down select-pane -D
 
 # Enable mouse mode (tmux 2.1 and above)
 set -g mouse on
-
-source ~/.tmux/f-keys
-source ~/.tmux/colors
