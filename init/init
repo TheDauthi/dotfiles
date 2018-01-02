@@ -9,7 +9,7 @@
 # Loads files in the given shellrc path that can are compatabible with the current environment
 _load_shellrc_path()
 {
-    local _shellrc_path="${HOME}/.shellrc/$1/"
+    local _shellrc_path="${HOME}/.shellrc/$1"
     local -a files
 
     if [[ ! -e "${_shellrc_path}" ]]; then
@@ -18,7 +18,7 @@ _load_shellrc_path()
 
     local shellregex=$(_build_load_regex)
 
-    files=( $(find -E "${_shellrc_path}" -iregex "${shellregex}" -type f -print | sort) )
+    files=( $(find -L "${_shellrc_path}" | grep -E "$shellregex" | sort) )
 
     for file in "${files[@]}"; do
       [ -e "${file}" ] || continue
@@ -40,13 +40,13 @@ _build_load_regex()
 
   for extension in "${init_extensions[@]}"; do
     i=$((i + 1))
-    extension_regex+=".*\.${extension}"
+    extension_regex+="\.${extension}\$"
     if [ $i -lt "${#init_extensions[*]}" ]; then
       extension_regex+='|'
     fi
   done
 
-  echo $extension_regex
+  echo "$extension_regex"
 }
 
 ###
