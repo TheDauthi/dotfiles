@@ -1,6 +1,6 @@
 ####
 # Move up $1 directories
-function up()
+up()
 {
   if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 up

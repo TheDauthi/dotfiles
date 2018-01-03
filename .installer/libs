@@ -1,0 +1,21 @@
+load_installer_libraries() {
+  local LIB_PATH
+  if [[ ! -z "${BASH_SOURCE[0]}" ]]; then
+    LIB_PATH="${BASH_SOURCE[0]}"
+  else
+    LIB_PATH="${(%):-%x}"
+  fi
+
+  LIB_PATH="$( cd "$(dirname "$LIB_PATH")" ; pwd -P )"
+  LIB_PATH="${LIB_PATH}/lib"
+
+  source "${LIB_PATH}/git-emulation.lib.sh"
+  source "${LIB_PATH}/install.lib.sh"
+  source "${LIB_PATH}/logging.lib.sh"
+  source "${LIB_PATH}/os.lib.sh"
+  source "${LIB_PATH}/path.lib.sh"
+  source "${LIB_PATH}/python.lib.sh"
+  source "${LIB_PATH}/utilities.lib.sh"  
+}
+
+load_installer_libraries
