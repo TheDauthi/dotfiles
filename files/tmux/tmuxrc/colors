@@ -3,6 +3,9 @@
 ###########################
 
 # color status bar
+
+set -g default-terminal "screen-256color" # colors!
+
 set -g status-bg colour235
 set -g status-fg white
 

@@ -4,6 +4,11 @@ unbind-key -a
 set-option -g prefix C-b
 bind-key C-b send-prefix
 
+# setw -g xterm-keys on
+# set -s focus-events on
+
+set -g set-titles-string '#h ❐ #S ● #I #W'
+
 bind -n M-Left select-pane -L
 bind -n M-Right select-pane -R
 bind -n M-Up select-pane -U
@@ -11,3 +16,5 @@ bind -n M-Down select-pane -D
 
 # Enable mouse mode (tmux 2.1 and above)
 set -g mouse on
+bind - split-window -v
+bind _ split-window -h

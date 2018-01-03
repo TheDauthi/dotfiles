@@ -1,0 +1,7 @@
+tmux_conf_copy_to_os_clipboard=true
+
+# urlview
+bind U run "cut -c3- ~/.tmux.conf | sh -s _urlview #{pane_id}"
+
+# pathpicker
+bind F run "cut -c3- ~/.tmux.conf | sh -s _fpp #{pane_id}"

@@ -4,6 +4,11 @@ set -g mouse on
 # (commented out because it disables cursor navigation in vim)
 #set -g terminal-overrides "xterm*:XT:smcup@:rmcup@:kUP5=\eOA:kDN5=\eOB:kLFT5=\eOD:kRIT5=\eOC"
 
+# Scrollwhell toggle
+bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'copy-mode -e; send-keys -M'"
+
+
+
 # Scroll History
 set -g history-limit 30000
 
