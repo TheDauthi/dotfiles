@@ -1,3 +1,6 @@
 [submodule "files/plugins/fasd"]
 	path = files/plugins/fasd
 	url = https://github.com/whjvenyl/fasd
+[submodule "files/plugins/pathpicker"]
+	path = files/plugins/pathpicker
+	url = https://github.com/facebook/PathPicker.git
