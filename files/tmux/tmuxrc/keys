@@ -1,0 +1,86 @@
+bind-key -n               C-F1    command-prompt "split-window 'exec man %%'"
+bind-key -n               F2      new-window -c "#{pane_current_path}" \; rename-window "-"
+bind-key -n               C-F2    display-panes \; split-window -h -c "#{pane_current_path}"
+bind-key -n               S-F2    display-panes \; split-window -v -c "#{pane_current_path}"
+bind-key -n               C-S-F2  new-session
+
+bind-key -n               F3      previous-window
+bind-key -n               S-F3    display-panes \; select-pane -t :.-
+bind-key -n               C-F3    display-panes \; swap-pane -s :. -t :.- \; select-pane -t :.-
+
+bind-key -n               F4      next-window
+bind-key -n               S-F4    display-panes \; select-pane -t :.+
+bind-key -n               C-F4    display-panes \; swap-pane -s :. -t :.+ \; select-pane -t :.+
+
+bind-key -n               F5      choose-window
+bind-key -n               S-F5    command-prompt -p index "select-window -t ':%%'"
+
+# bind-key -n               M-F6 run-shell 'tmux-detach-all-but-current-client'
+
+bind-key -n               F6      detach
+bind-key -n               C-F6    kill-pane
+               
+bind-key -n               F8      command-prompt -p "(rename-window) " "rename-window '%%'"
+bind-key -n               C-F8    command-prompt -p "(rename-session) " "rename-session '%%'"
+               
+bind-key -n               M-F9    display-panes \; setw synchronize-panes
+
+bind-key -n               M-F11   break-pane
+bind-key -n               C-F11   join-pane -h -s :. -t :-1
+bind-key -n               S-F11   resize-pane -Z
+               
+bind-key -n               M-IC    paste-buffer
+
+bind-key -n               M-0     select-window -t 0
+bind-key -n               M-1     select-window -t 1
+bind-key -n               M-2     select-window -t 2
+bind-key -n               M-3     select-window -t 3
+bind-key -n               M-4     select-window -t 4
+bind-key -n               M-5     select-window -t 5
+bind-key -n               M-6     select-window -t 6
+bind-key -n               M-7     select-window -t 7
+bind-key -n               M-8     select-window -t 8
+bind-key -n               M-9     select-window -t 9
+
+bind-key -n               M-Left  previous-window
+bind-key -n               M-Right next-window
+bind-key -n               M-Up    switch-client -p
+bind-key -n               M-Down  switch-client -n
+
+bind-key -n               S-Up    display-panes \; select-pane -U
+bind-key -n               S-Down  display-panes \; select-pane -D
+bind-key -n               S-Left  display-panes \; select-pane -L
+bind-key -n               S-Right display-panes \; select-pane -R
+
+
+bind-key -n               M-NPage copy-mode \; send-keys NPage
+bind-key -n               M-PPage copy-mode \; send-keys PPage
+
+bind-key                  "'"     command-prompt -p index "select-window -t ':%%'"
+bind-key                  /       command-prompt "split-window 'exec man %%'"
+
+##########################
+# Copy Mode
+##########################
+bind-key -n               F7      copy-mode
+
+bind-key  -T copy-mode    Space   send-keys -X begin-selection
+bind-key  -T copy-mode    C-Space send-keys -X begin-selection
+bind-key  -T copy-mode    C-a     send-keys -X start-of-line
+bind-key  -T copy-mode    C-b     send-keys -X cursor-left
+bind-key  -T copy-mode    C-c     send-keys -X cancel
+bind-key  -T copy-mode    C-e     send-keys -X end-of-line
+bind-key  -T copy-mode    C-f     send-keys -X cursor-right
+bind-key  -T copy-mode    C-g     send-keys -X clear-selection
+bind-key  -T copy-mode    C-k     send-keys -X copy-end-of-line
+bind-key  -T copy-mode    C-n     send-keys -X cursor-down
+bind-key  -T copy-mode    C-p     send-keys -X cursor-up
+bind-key  -T copy-mode    Enter   send-keys -X copy-selection-and-cancel
+
+bind-key                  P       paste-buffer
+bind-key                  '"'     choose-session
+
+
+# bind-key -T prefix      $       command-prompt -I "#S" "rename-session '%%'"
+bind-key  -T prefix       &       confirm-before -p "kill-window #W? (y/n)" kill-window
+bind-key  -T prefix       f       command-prompt "find-window '%%'"

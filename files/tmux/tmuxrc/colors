@@ -4,6 +4,12 @@
 
 # color status bar
 
+# for i in {0..255}; do
+#    printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"
+# done
+#
+# Grey '#EEEEEE'
+
 set -g default-terminal "screen-256color" # colors!
 
 set -g status-bg colour235
@@ -11,7 +17,7 @@ set -g status-fg white
 
 # highlight current window
 set-window-option -g window-status-current-fg black
-set-window-option -g window-status-current-bg green
+set-window-option -g window-status-current-bg '#EEEEEE'
 
 # set color of active pane
 set -g pane-border-fg colour235

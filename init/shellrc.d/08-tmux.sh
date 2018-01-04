@@ -1,5 +1,7 @@
 tmux() {
-  local _hostname=$(hostname -s)
-  local SESSION=${1:-$_hostname}
-  command tmux new -A -s "$SESSION"
+  if [[ -z "$1" ]]; then
+    command tmux new -A -s "$(hostname -s)"
+  else
+    command tmux "$@"
+  fi
 }

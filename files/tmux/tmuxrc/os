@@ -1,7 +1,34 @@
 tmux_conf_copy_to_os_clipboard=true
 
-# urlview
-bind U run "cut -c3- ~/.tmux.conf | sh -s _urlview #{pane_id}"
+##### urlview
+bind-key                  C-u     run "< ~/.tmuxrc/functions sh -s _urlview #{pane_id}"
 
-# pathpicker
-bind F run "cut -c3- ~/.tmux.conf | sh -s _fpp #{pane_id}"
+##### pathpicker
+bind-key                  C-f     run "< ~/.tmuxrc/functions sh -s _fpp #{pane_id}"
+
+##### Man Pages
+bind-key                  /       command-prompt "split-window 'exec man %%'"
+
+bind-key                  +       run '< ~/.tmuxrc/functions sh -s _maximize_pane "#{session_name}" #D'
+
+
+# edit printscreen
+# bind-key -n F7 run '< ~/.tmuxrc/functions sh -s _edit_printscreen "#{session_name}"'
+
+##### copy to Mac OSX clipboard
+if -b 'command -v reattach-to-user-namespace > /dev/null 2>&1' \
+      'bind y run -b "tmux save-buffer - | reattach-to-user-namespace pbcopy"'
+
+##### copy to X11 clipboard
+if -b 'command -v xsel > /dev/null 2>&1'\
+      'bind y run -b "tmux save-buffer - | xsel -i -b"'
+
+if -b '! command -v xsel > /dev/null 2>&1 && command -v xclip > /dev/null 2>&1' \
+      'bind y run -b "tmux save-buffer - | xclip -i -selection clipboard >/dev/null 2>&1"'
+
+##### copy to Windows clipboard
+if -b 'command -v clip.exe > /dev/null 2>&1' \
+      'bind y run -b "tmux save-buffer - | clip.exe"'
+
+if -b '[ -c /dev/clipboard ]' \
+      'bind y run -b "tmux save-buffer - > /dev/clipboard"'
