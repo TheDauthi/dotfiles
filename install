@@ -33,6 +33,7 @@ declare -A DOTMAP=(
   [.byobu/status]=files/byobu/status
   [.byobu/keybindings.tmux]=files/byobu/keybindings.tmux
   [.shellrc/plugins/fasd]=files/plugins/fasd
+  [.shellrc/plugins/pathpicker]=files/plugins/pathpicker
 ) 
 
 for file in "${!DOTMAP[@]}"; do
