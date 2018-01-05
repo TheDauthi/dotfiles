@@ -1,3 +1,4 @@
+#!/bin/bash
 load_installer_libraries() {
   local LIB_PATH
   if [[ ! -z "${BASH_SOURCE[0]}" ]]; then

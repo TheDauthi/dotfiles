@@ -8,7 +8,7 @@ source "${SCRIPT_PATH}/.installer/lib/install.lib.sh"
 
 SHELLRC_PATH=${SHELLRC_PATH:-~/.shellrc}
 
-mkdir -p "${HOME}/.shellrc/local.d" "${HOME}/bin" "${HOME}/.byobu" "${HOME}/.shellrc/plugins"
+mkdir -p "${HOME}/.shellrc/local.d" "${HOME}/bin" "${HOME}/.shellrc/plugins"
 
 # Clean up broken symlinks
 find "${HOME}" -maxdepth 1 -xtype l -delete
@@ -34,6 +34,8 @@ declare -A DOTMAP=(
   [.byobu/keybindings.tmux]=files/byobu/keybindings.tmux
   [.shellrc/plugins/fasd]=files/plugins/fasd
   [.shellrc/plugins/pathpicker]=files/plugins/pathpicker
+  [.tmux.conf]=files/tmux/tmux.conf
+  [.tmuxrc]=files/tmux/tmuxrc
 ) 
 
 for file in "${!DOTMAP[@]}"; do
