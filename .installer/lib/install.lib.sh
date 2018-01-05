@@ -16,12 +16,23 @@ link_file() {
     mv "$src" "$src.$(date --utc +%FT%TZ)"
     success "Backed up $src"
   elif [[ "$action" -eq 3 ]]; then
-    # rm -rf "$dst"
-    success "removed $src"
+    unlink_or_remove "$dst"
+    success "removed $dst"
   fi
 
   ln -s "$src" "$dst"
   return 0;
+}
+
+# Some non-GNU systems insist that deleting the contents of
+# a directory symlink is correct. That's not POSIX-compliant
+unlink_or_remove() {
+  local destination=$1
+  if [[ -l "$destination" ]]; then
+    unlink "$destination"
+  else
+    rm -rf "$destination"
+  fi  
 }
 
 _link_file() {
