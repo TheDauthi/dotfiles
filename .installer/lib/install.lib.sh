@@ -28,7 +28,7 @@ link_file() {
 # a directory symlink is correct. That's not POSIX-compliant
 unlink_or_remove() {
   local destination=$1
-  if [[ -l "$destination" ]]; then
+  if [ -l "$destination" ]; then
     unlink "$destination"
   else
     rm -rf "$destination"
