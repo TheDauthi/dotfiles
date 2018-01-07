@@ -30,8 +30,6 @@ declare -A DOTMAP=(
   [.bash_profile]=files/bash/bash_profile
   [.zshrc]=files/zsh/zshrc
   [.vimrc]=files/vim/vimrc
-  [.shellrc/plugins/fasd]=files/plugins/fasd
-  [.shellrc/plugins/pathpicker]=files/plugins/pathpicker
   [.tmux.conf]=files/tmux/tmux.conf
   [.tmuxrc]=files/tmux/tmuxrc
 ) 
@@ -48,8 +46,11 @@ cd "${HOME}/.shellrc/plugins"
 declare -a PLUGINS=(
   fasd
   pathpicker
+  fzf
 )
 
 for plugin in "${PLUGINS[@]}"; do
-  link_file "../dotfiles/files/plugins/${plugin}" "${plugin}"
+  if [[ -e "../dotfiles/files/plugins/${plugin}" ]]; then
+    link_file "../dotfiles/files/plugins/${plugin}" "${plugin}"
+  fi
 done
