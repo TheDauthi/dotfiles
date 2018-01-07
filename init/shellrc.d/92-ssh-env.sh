@@ -17,8 +17,8 @@ function build_http_methods()
 
 function generate_lc_env()
 {
-  local remote_prompt=$(build_prompt)
-  local remote_methods=$(build_http_methods)
+  local remote_prompt="$(build_prompt)"
+  local remote_methods="$(build_http_methods)"
   LC_REMOTE_LOAD_COMMANDS=$(echo -E $remote_prompt";"$remote_methods)
 }
 
