@@ -4,3 +4,6 @@
 [submodule "files/plugins/pathpicker"]
 	path = files/plugins/pathpicker
 	url = https://github.com/facebook/PathPicker.git
+[submodule "files/plugins/fzf"]
+	path = files/plugins/fzf
+	url = https://github.com/junegunn/fzf
