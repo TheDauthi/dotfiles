@@ -4,7 +4,12 @@ fi
 
 pathappend "${HOME}/.shellrc/plugins/fzf/bin"
 
+export FZF_TMUX=1
+
 alias ft="fzf-tmux"
+
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
 
 # Modified version where you can press
 #   - CTRL-O to open with `open` command,
