@@ -16,6 +16,6 @@ return; fi
         for i in {1..$1} ; do
             CDSTR="../$CDSTR"
         done
-        cd $CDSTR
+        cd "$CDSTR"
     fi
 }
