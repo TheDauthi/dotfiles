@@ -1,1 +1,1 @@
-pathappend "$HOME/.shellrc/bin"
+pathappend "${HOME}/.shellrc/bin"
