@@ -41,3 +41,15 @@ for file in "${!DOTMAP[@]}"; do
   DOTFILE=$(real_to_abspath "${HOME}" "${DOTFILE}")
   link_file "${DOTFILE}" "${file}"
 done
+
+cd "${HOME}/.shellrc/plugins"
+
+# Installing plugins is uglier. I don't have a "real" fix for this yet.
+declare -a PLUGINS=(
+  fasd
+  pathpicker
+)
+
+for plugin in "${PLUGINS[@]}"; do
+  link_file "../dotfiles/files/plugins/${plugin}" "${plugin}"
+done
