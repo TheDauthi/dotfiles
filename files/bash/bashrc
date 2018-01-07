@@ -1,8 +1,5 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
-
-
 if [[ $- != *i* ]] ; then
   # shell is non-interactive. be done now!
   return
