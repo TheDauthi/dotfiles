@@ -16,6 +16,7 @@ setw -g xterm-keys on
 set -g set-titles-string '#h ❐ #S ● #I #W'
 
 set -g monitor-activity on
+set -g bell-action none
 set -g visual-activity off
 
 bind-key -n               M-Left  select-pane -L
