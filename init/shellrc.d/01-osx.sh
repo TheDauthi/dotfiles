@@ -5,7 +5,7 @@ export CLICOLOR=1
 BREWCOREUTILS="$(brew --prefix coreutils)/libexec"
 
 pathprepend "$BREWCOREUTILS/gnubin"
-PATH="/usr/local/bin:$PATH"
+pathprepend "/usr/local/bin"
 
 export MANPATH="$BREWCOREUTILS/gnuman:$MANPATH"
 
