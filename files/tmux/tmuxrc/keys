@@ -1,3 +1,36 @@
+unbind-key r
+
+
+bind-key -n               M-Left  select-pane -L
+bind-key -n               M-Right select-pane -R
+bind-key -n               M-Up    select-pane -U
+bind-key -n               M-Down  select-pane -D
+bind-key                  -       split-window -v
+bind-key                  _       split-window -h
+
+bind-key    -T prefix     0       select-window -t :=0
+bind-key    -T prefix     1       select-window -t :=1
+bind-key    -T prefix     2       select-window -t :=2
+bind-key    -T prefix     3       select-window -t :=3
+bind-key    -T prefix     4       select-window -t :=4
+bind-key    -T prefix     5       select-window -t :=5
+bind-key    -T prefix     6       select-window -t :=6
+bind-key    -T prefix     7       select-window -t :=7
+bind-key    -T prefix     8       select-window -t :=8
+bind-key    -T prefix     9       select-window -t :=9
+
+bind-key                  +       run '< ~/.tmuxrc/functions sh -s _maximize_pane "#{session_name}" #D'
+
+##### create session
+bind-key                  C-c     new-session
+bind-key                  C-t     new-window -c "#{pane_current_path}" \; rename-window "-"
+bind-key                  C-w     choose-window
+
+##### find session
+bind-key                  F       command-prompt -p find-session 'switch-client -t %%'
+
+bind-key                  r       source-file ~/.tmux.conf
+
 bind-key -n               C-F1    command-prompt "split-window 'exec man %%'"
 bind-key -n               F2      new-window -c "#{pane_current_path}" \; rename-window "-"
 bind-key -n               C-F2    display-panes \; split-window -h -c "#{pane_current_path}"
@@ -12,10 +45,11 @@ bind-key -n               F4      next-window
 bind-key -n               S-F4    display-panes \; select-pane -t :.+
 bind-key -n               C-F4    display-panes \; swap-pane -s :. -t :.+ \; select-pane -t :.+
 
+
 bind-key -n               F5      choose-window
 bind-key -n               S-F5    command-prompt -p index "select-window -t ':%%'"
 
-# bind-key -n               M-F6 run-shell 'tmux-detach-all-but-current-client'
+# bind-key -n             M-F6 run-shell 'tmux-detach-all-but-current-client'
 
 bind-key -n               F6      detach
 bind-key -n               C-F6    kill-pane
@@ -62,6 +96,7 @@ bind-key                  /       command-prompt "split-window 'exec man %%'"
 ##########################
 # Copy Mode
 ##########################
+
 bind-key -n               F7      copy-mode
 
 bind-key  -T copy-mode    Space   send-keys -X begin-selection
