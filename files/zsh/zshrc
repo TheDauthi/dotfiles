@@ -53,7 +53,7 @@ if [ -e "$ZSH/oh-my-zsh.sh" ]; then
   source $ZSH/oh-my-zsh.sh
 fi
 
-for _shell_path in shellrc.d "platform.d/${OSTYPE}"; do
+for _shell_path in shellrc.d "platform.d/${OSTYPE}" local.d; do
   _load_shellrc_path $_shell_path
 done
 
