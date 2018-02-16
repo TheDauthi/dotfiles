@@ -4,6 +4,11 @@ fi
 
 pathappend "${HOME}/.shellrc/plugins/fzf/bin"
 
+# This means we failed to build/install the fzf binary
+if ! command -v fzf >/dev/null 2>&1; then
+  return
+fi
+
 export FZF_TMUX=1
 
 alias ft="fzf-tmux"
@@ -72,12 +77,3 @@ j() {
     local dir
     dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
 }
-
-# unalias f
-
-# # fasd & fzf change directory - jump using `fasd` if given argument, filter output of `fasd` using `fzf` else
-# f() {
-#     [ $# -gt 0 ] && fasd_cd -f "$*" && return
-#     local dir
-#     dir="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-# }
