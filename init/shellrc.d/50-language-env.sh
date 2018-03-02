@@ -13,6 +13,5 @@ _load_language_path()
 }
 
 for language in "${_env_languages[@]}"; do 
-  echo $language
   _load_language_path $language
 done
