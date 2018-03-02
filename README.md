@@ -49,3 +49,13 @@ mkdir -p ~/.shellrc/dotfiles && curl -L --output - https://github.com/TheDauthi/
 Cool. There is a greatly stripped down version of this that installs nothing to your machine:
 
 `source <(curl billyconn.com/sh)`
+
+### Plugins
+There are three included optional plugins that will install if they will work on your platform:
+
+fzf: fuzzy finder. Requires go for default install, use https://github.com/junegunn/fzf-bin/releases for binary release
+
+fasd: keeps track of frecency of used paths. Like autojump, but uses shell instead of requiring python.
+
+pathpicker: Allows you to choose paths from the user's screen buffer.
+
