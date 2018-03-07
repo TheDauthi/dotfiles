@@ -12,6 +12,6 @@ _load_language_path()
     fi
 }
 
-for language in $_env_languages; do
+for language in "${_env_languages[@]}"; do 
   _load_language_path $language
 done

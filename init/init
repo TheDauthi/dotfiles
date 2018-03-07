@@ -77,16 +77,27 @@ _load_shell_init()
   fi
 }
 
+pathremove() {
+  for ARG in "$@"; do
+    PATH=${PATH//":$ARG:"/":"} # delete any instances in the middle
+    PATH=${PATH/#"$ARG:"/} # delete any instance at the beginning
+    PATH=${PATH/%":$ARG"/} # delete any instance in the at the end
+  done
+}
+
 pathappend() {
   for ARG in "$@"; do
+    pathremove "$ARG"
+
     if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-        PATH="${PATH:+"$PATH:"}$ARG"
+      PATH="${PATH:+"$PATH:"}$ARG"
     fi
   done
 }
 
 pathprepend() {
   for ARG in "$@"; do
+    pathremove "$ARG"
     if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
         PATH="$ARG${PATH:+":$PATH"}"
     fi
