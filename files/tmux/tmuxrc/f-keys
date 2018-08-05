@@ -59,7 +59,7 @@ bind-key -n F7 copy-mode
 
 bind-key -n S-F7 run "< ~/.tmuxrc/functions sh -s _toggle_mouse"
 
-capture-pane -S -32768 \; save-buffer "$(mktemp)/printscreen" \; delete-buffer \; new-window -n "PRINTSCREEN" "$EDITOR $TMUX_TMPDIR/printscreen"
+bind-key -n C-F7 capture-pane -S -32768 \; save-buffer "$(mktemp)/printscreen" \; delete-buffer \; new-window -n "PRINTSCREEN" "$EDITOR $TMUX_TMPDIR/printscreen"
 
 bind-key -n M-NPage copy-mode \; send-keys NPage
 bind-key -n M-PPage copy-mode \; send-keys PPage
