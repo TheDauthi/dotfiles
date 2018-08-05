@@ -105,3 +105,41 @@ HELP
            alpine ash -c "cd /from ; cp -av . /to"
 }
 
+_docker-helper()
+{
+    local cur prev
+
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+    prevprev=${COMP_WORDS[COMP_CWORD-2]}
+
+    case ${COMP_CWORD} in
+        1)
+            COMPREPLY=($(compgen -W "volume show" -- ${cur}))
+            ;;
+        2)
+            case ${prev} in
+                volume)
+                    COMPREPLY=($(compgen -W "clone" -- ${cur}))
+                    ;;
+            esac
+            ;;
+        3)
+            case ${prevprev} in
+                volume)
+                  case ${prev} in 
+                    clone)
+                      VOLUMES=$(docker volume ls --quiet | sed 's/\n/ /g')
+                      COMPREPLY=($(compgen -W "$VOLUMES" -- ${cur}))
+                    ;;
+                  esac
+                  ;;
+            esac
+            ;;
+        *)
+            COMPREPLY=()
+            ;;
+    esac
+}
+
+complete -F _docker-helper docker-helper
