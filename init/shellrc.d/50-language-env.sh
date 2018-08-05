@@ -1,6 +1,6 @@
 # Sets up rbenv in our environment
 
-_env_languages=(rb pl py nod)
+_env_languages=(rb pl py nod php)
 
 _load_language_path()
 {
