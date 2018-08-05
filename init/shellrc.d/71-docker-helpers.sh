@@ -1,10 +1,12 @@
 ###
-# Docker 'helpers'
+# Docker 'helpers' command
+# Supports subcommands
 docker-helper() {
   HELP=$(cat <<'HELP'
 docker-helper
 Usage: docker-helper [command]
 Commands:
+  help           This help text
   volume         Work with docker volumes
 HELP
 )  
@@ -33,8 +35,8 @@ docker-helper volume
 Usage: docker-helper volume [command]
 
 Commands:
+  help           This help text
   clone          Work with docker volumes
-  
 HELP
 )
   if [[ "$1" == "-h" || "$1" == "--help" || "$1" == "" ]]; then 
@@ -105,6 +107,8 @@ HELP
            alpine ash -c "cd /from ; cp -av . /to"
 }
 
+##
+# Completion for docker-helper
 _docker-helper()
 {
     local cur prev
@@ -115,12 +119,12 @@ _docker-helper()
 
     case ${COMP_CWORD} in
         1)
-            COMPREPLY=($(compgen -W "volume show" -- ${cur}))
+            COMPREPLY=($(compgen -W "volume help" -- ${cur}))
             ;;
         2)
             case ${prev} in
                 volume)
-                    COMPREPLY=($(compgen -W "clone" -- ${cur}))
+                    COMPREPLY=($(compgen -W "clone help" -- ${cur}))
                     ;;
             esac
             ;;
@@ -142,4 +146,6 @@ _docker-helper()
     esac
 }
 
-complete -F _docker-helper docker-helper
+if type complete &>/dev/null; then
+  complete -F _docker-helper docker-helper
+fi
