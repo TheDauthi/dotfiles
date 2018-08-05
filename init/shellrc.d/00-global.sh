@@ -2,5 +2,5 @@
 
 umask 022
 pathappend "$HOME/bin"
-# Switch to vi-mode
-set -o vi
+# Switch to emacs-mode
+set -o emacs

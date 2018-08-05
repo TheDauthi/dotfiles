@@ -57,10 +57,8 @@ for _shell_path in shellrc.d "platform.d/${OSTYPE}" local.d; do
   _load_shellrc_path $_shell_path
 done
 
-
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
