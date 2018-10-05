@@ -11,7 +11,7 @@ SHELLRC_PATH=${SHELLRC_PATH:-~/.shellrc}
 mkdir -p "${HOME}/.shellrc/local.d" "${HOME}/bin" "${HOME}/.shellrc/plugins"
 
 # Clean up broken symlinks
-find "${HOME}" -maxdepth 1 -xtype l -delete
+find "${HOME}" -maxdepth 1 -type l -exec test ! -e {} \; -print
 
 cd "${SHELLRC_PATH}"
 
