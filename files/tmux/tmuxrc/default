@@ -1,17 +1,17 @@
 # First remove *all* keybindings
-unbind-key -a
+# unbind-key -a
 
 set-option -g prefix C-b
 bind-key C-b send-prefix
 set -g prefix2 `
 
-set -g base-index 1         # start windows numbering at 1
+set  -g base-index 1         # start windows numbering at 1
+setw -g pane-base-index 1    # start panes at 1
+
 set -g renumber-windows on
 set -g mouse on
 
 setw -g xterm-keys on
-
-# set -s focus-events on
 
 set -g set-titles-string '#h ❐ #S ● #I #W'
 
@@ -19,4 +19,4 @@ set -g monitor-activity on
 set -g bell-action none
 set -g visual-activity off
 
-
+set -g status-right ' #{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}"#{=21:pane_title}" %H:%M %d-%b-%y'

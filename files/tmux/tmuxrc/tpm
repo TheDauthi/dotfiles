@@ -1,0 +1,21 @@
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.shellrc/tmux/plugins'
+
+set -g @copycat_file_search 'C-t'
+
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
+set -g @plugin 'tmux-plugins/tmux-copycat'
+set -g @plugin 'tmux-plugins/tmux-urlview'
+set -g @plugin 'tmux-plugins/tmux-pain-control'
+set -g @plugin 'jbnicolai/tmux-fpp'
+
+# install TPM if not already installed
+if "test ! -d ~/.shellrc/tmux/plugins/tpm" \
+    "run 'git clone https://github.com/tmux-plugins/tpm ~/.shellrc/tmux/plugins/tpm && ~/.shellrc/tmux/plugins/tpm/bin/install_plugins'"
+
+# initialise TPM
+run ~/.shellrc/tmux/plugins/tpm/tpm
+
+bind-key                  C-f     run "< ~/.tmuxrc/functions sh -s _fpp #{pane_id}"
