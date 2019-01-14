@@ -1,6 +1,6 @@
 ####
 # Retreives IP address from Akamai. Uses IP in case of DNS failure
-function myip()
+myip()
 {
   if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
 myip

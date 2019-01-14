@@ -20,3 +20,4 @@ return; fi
     echo "."
   fi
 }
+
