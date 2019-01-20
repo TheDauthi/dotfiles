@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Ignore if we're not on a Debian-based system
+[[ -f /etc/debian_version ]] || exit 0
+
+if [ $EUID != 0 ]; then
+    sudo "$0" "$@"
+    exit $?
+fi
+
+apt-get update
+apt-get install tmux htop ncdu 
