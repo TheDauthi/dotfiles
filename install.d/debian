@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Ignore if we're not on a Debian-based system
+
+# Do nothing if we're not on something Debian-based
 [[ -f /etc/debian_version ]] || exit 0
 
 if [ $EUID != 0 ]; then
@@ -8,4 +9,25 @@ if [ $EUID != 0 ]; then
 fi
 
 apt-get update
-apt-get install tmux htop ncdu 
+
+cat <<-__PACKAGES__  | xargs apt-get -ym install
+ack
+glances
+htop
+iftop
+iotop
+iptraf
+jq
+lnav
+mc
+moreutils
+ncdu
+peco
+ranger
+rename
+rsync
+silversearcher-ag
+tmux
+urlview
+__PACKAGES__
+
