@@ -10,9 +10,21 @@ fi
 
 apt-get update
 
-cat <<-__PACKAGES__  | xargs apt-get -ym install
+cat <<-__PACKAGES__ | xargs apt-get -ym install
+acl
 ack
-glances
+attr
+autoconf
+automake
+build-essential
+bzip2
+curl 
+dialog
+fdupes
+file
+fslint
+fswatch
+git
 htop
 iftop
 iotop
@@ -23,11 +35,13 @@ mc
 moreutils
 ncdu
 peco
-ranger
+psmisc
 rename
 rsync
 silversearcher-ag
+socat
 tmux
 urlview
+xz-utils
+zip
 __PACKAGES__
-
