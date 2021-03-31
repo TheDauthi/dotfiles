@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+# Do nothing if we're not on something Debian-based
+[[ -f /etc/debian_version ]] || exit 0
+
+if [ $EUID != 0 ]; then
+    sudo "$0" "$@"
+    exit $?
+fi
+
+apt-get update
+
+cat <<-__PACKAGES__ | xargs apt-get -ym install
+acl
+ack
+attr
+autoconf
+automake
+build-essential
+bzip2
+curl 
+dialog
+fdupes
+file
+fslint
+fswatch
+git
+htop
+iftop
+iotop
+iptraf
+jq
+lnav
+mc
+moreutils
+ncdu
+peco
+psmisc
+rename
+rsync
+silversearcher-ag
+socat
+tmux
+urlview
+xz-utils
+zip
+__PACKAGES__
