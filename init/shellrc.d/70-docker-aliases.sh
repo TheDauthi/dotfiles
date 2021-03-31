@@ -66,7 +66,14 @@ Usage: dkex [container] [options] [command]
 Executes a command in the given docker container
 HELP
 return; fi
-  docker exec -it "$@"
+
+  if docker inspect "$1" > /dev/null 2>&1; then
+    docker exec -it "$@"
+  elif docker-compose ps "$1" > /dev/null 2>&1; then
+    docker-compose exec "$@"
+  else
+    echo "No such container '$1' found"
+  fi
 }
 
 
@@ -113,4 +120,4 @@ return; fi
 }
 
 alias dkl="docker ps -lq"
-
+alias dcu="docker-compose up"
