@@ -12,6 +12,7 @@ set -g renumber-windows on
 set -g mouse on
 
 setw -g xterm-keys on
+setw -g aggressive-resize on
 
 set -g set-titles-string '#h ❐ #S ● #I #W'
 
