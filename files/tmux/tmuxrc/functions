@@ -35,7 +35,7 @@ _fpp() {
 }
 
 _show_bindings() {
-  tmux split-window 'tmux list-keys | sed -e "s/^bind-key.*\(root\|prefix\|copy-mode\)/\1/" | sort | cut -c-$COLUMNS | less'
+  tmux split-window 'tmux list-keys | sed -e "s/^bind-key.*[-]T\s\(root\|prefix\|copy-mode\)/\1/" | sort | cut -c-$COLUMNS | less'
 }
 
 _split_window() {
