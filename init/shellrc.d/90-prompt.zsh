@@ -1,12 +1,12 @@
-# PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[blue]%}${PWD/#$HOME/~}%{$reset_color%}'
-
-# ZSH checks to see if oh-my-zsh is installed
-
-[ -z "${ZSH}" ] && return 1
 
 function __create_prompt() {
   local generated_prompt=''
 
+  if [ -z "$fg_bold" ]; then
+    autoload colors
+    colors
+  fi
+  
   if [[ $UID -eq 0 ]]; then
     local __prompt_end_char='#'
     local __prompt_user_color='%{$fg_bold[red]%}'
@@ -20,9 +20,12 @@ function __create_prompt() {
   local path_part='%{$fg_bold[blue]%}${PWD/#$HOME/~}%{$reset_color%}'
   local stop_part=$__prompt_end_char
 
-  generated_prompt="${user_part}${host_part}:${path_part}${stop_part} "
+  generated_prompt="${user_part}${host_part}:${path_part}${stop_part}\u00A0"
   echo $generated_prompt
 }
 
 PROMPT=$(__create_prompt)
-RPROMPT='${return_status}$(git_prompt_info)$(git_prompt_status)%{$reset_color%}'
+
+if typeset -f git_prompt_status > /dev/null; then
+  RPROMPT='${return_status}$(git_prompt_info)$(git_prompt_status)%{$reset_color%}'
+fi
