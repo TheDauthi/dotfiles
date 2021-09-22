@@ -1,7 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+language=nod
+virtualenv_path="$HOME/.${language}env"
+PATH="${virtualenv_path}/bin:$PATH"
 
 git clone https://github.com/nodenv/nodenv.git ~/.nodenv
-source ~/.shellrc/shellrc.d/*language-env.sh
+eval "$(${language}env init -)"
 
 git clone https://github.com/nodenv/nodenv-update.git "$(nodenv root)/plugins/nodenv-update"
 git clone https://github.com/nodenv/nodenv-default-packages.git "$(nodenv root)/plugins/nodenv-default-packages"

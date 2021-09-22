@@ -1,8 +1,11 @@
 #!/usr/bin/env sh
 
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+language=rb
+virtualenv_path="$HOME/.${language}env"
+PATH="${virtualenv_path}/bin:$PATH"
 
-source ~/.shellrc/shellrc.d/*language-env.sh
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+eval "$(${language}env init -)"
 
 mkdir -p "$(rbenv root)"/plugins
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
