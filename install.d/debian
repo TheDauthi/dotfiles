@@ -22,7 +22,6 @@ curl
 dialog
 fdupes
 file
-fslint
 fswatch
 git
 htop
