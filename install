@@ -8,6 +8,15 @@ source "${SCRIPT_PATH}/.installer/lib/install.lib.sh"
 
 SHELLRC_PATH=${SHELLRC_PATH:-~/.shellrc}
 
+while [[ $# -gt 0 ]]; do 
+  case $1 in 
+    -y|--yes) 
+      overwrite_all="true" 
+      shift 
+      ;; 
+  esac 
+done
+
 mkdir -p "${HOME}/.shellrc/local.d" "${HOME}/bin" "${HOME}/.shellrc/plugins"
 
 # Clean up broken symlinks
