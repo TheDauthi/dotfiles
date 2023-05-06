@@ -34,19 +34,21 @@ done
 
 cd "${HOME}"
 
-declare -A DOTMAP=(
-  [.bashrc]=files/bash/bashrc
-  [.bash_profile]=files/bash/bash_profile
-  [.zshrc]=files/zsh/zshrc
-  [.vimrc]=files/vim/vimrc
-  [.tmux.conf]=files/tmux/tmux.conf
-  [.tmuxrc]=files/tmux/tmuxrc
-) 
+declare -a DOTMAP=(
+  ".bashrc=files/bash/bashrc"
+  ".bash_profile=files/bash/bash_profile"
+  ".zshrc=files/zsh/zshrc"
+  ".vimrc=files/vim/vimrc"
+  ".tmux.conf=files/tmux/tmux.conf"
+  ".tmuxrc=files/tmux/tmuxrc"
+)
 
-for file in "${!DOTMAP[@]}"; do
-  DOTFILE="${SHELLRC_PATH}/dotfiles/${DOTMAP[$file]}"
+for filemap in "${DOTMAP[@]}"; do
+  DEST="${filemap%%=*}"
+  SRC="${filemap#*=}"
+  DOTFILE="${SHELLRC_PATH}/dotfiles/${SRC}"
   DOTFILE=$(real_to_abspath "${HOME}" "${DOTFILE}")
-  link_file "${DOTFILE}" "${file}"
+	link_file "${DOTFILE}" "${DEST}"
 done
 
 cd "${HOME}/.shellrc/plugins"
