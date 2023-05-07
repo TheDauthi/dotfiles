@@ -28,7 +28,7 @@ return; fi
       dcfse "$@"
       ;;
     *)
-      docker-compose "$@"
+      docker compose "$@"
     ;;
   esac
 }
@@ -44,7 +44,7 @@ Usage: dcsh [service]
 Begins a bash shell in the given docker-compose service
 HELP
 return; fi
-  docker-compose exec "$@" bash
+  docker compose exec "$@" bash
 }
 
 ####
@@ -58,7 +58,7 @@ Usage: dcex [service] [command]
 Executes a command in the given docker-compose service
 HELP
 return; fi
-  docker-compose exec "$@"
+  docker compose exec "$@"
 }
 
 ###
@@ -73,7 +73,7 @@ Inspects the filesystem of the named service(s)
 HELP
 return; fi
   
-  local CONTAINERS=$(docker-compose ps -q "$@")
+  local CONTAINERS=$(docker compose ps -q "$@")
   
   if [ "$?" -ne "0" ]; then
     return
@@ -103,7 +103,7 @@ return; fi
   local _NC='\033[0m'
 
   if [ $# -eq 0 ]; then
-    SERVICE_NAMES=$(docker-compose config --services)
+    SERVICE_NAMES=$(docker compose config --services)
     while read -r SERVICE; do
       SERVICES=( "${SERVICES[@]}" "$SERVICE" )
     done <<< "${SERVICE_NAMES}"
@@ -117,7 +117,7 @@ return; fi
   fi
 
   for SERVICE_NAME in ${SERVICES[@]}; do
-    CONTAINER_ID=$(docker-compose ps -q "${SERVICE_NAME}")
+    CONTAINER_ID=$(docker compose ps -q "${SERVICE_NAME}")
     if [[ "$?" != "0" ]]; then
       continue
     fi

@@ -47,8 +47,8 @@ return; fi
 
   if docker inspect "$1" > /dev/null 2>&1; then
     docker exec -it "$1" bash
-  elif docker-compose ps "$1" > /dev/null 2>&1; then
-    docker-compose exec "$1" bash
+  elif docker compose ps "$1" > /dev/null 2>&1; then
+    docker compose exec "$1" bash
   else
     echo "No such container '$1' found"
   fi
@@ -69,8 +69,8 @@ return; fi
 
   if docker inspect "$1" > /dev/null 2>&1; then
     docker exec -it "$@"
-  elif docker-compose ps "$1" > /dev/null 2>&1; then
-    docker-compose exec "$@"
+  elif docker compose ps "$1" > /dev/null 2>&1; then
+    docker compose exec "$@"
   else
     echo "No such container '$1' found"
   fi
@@ -120,4 +120,4 @@ return; fi
 }
 
 alias dkl="docker ps -lq"
-alias dcu="docker-compose up"
+alias dcu="docker compose up"
