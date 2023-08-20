@@ -1,0 +1,40 @@
+#!/usr/bin/env sh
+
+red_color="\033[0;31m"
+green_color="\033[0;32m"
+reset_color="\033[0m"
+
+install_zsh() {
+  echo "zsh not found. Trying to install it for you."
+
+  if [ -f /etc/debian_version ]; then
+    echo "Your system is Debian-based. Installing zsh using apt."
+    sudo apt update && sudo apt install -y zsh
+  elif [ -f /etc/redhat-release ]; then
+    echo "Your system is RedHat-based. Installing zsh using yum."
+    sudo yum install -y zsh
+  else
+    echo -e "${red_color}Sorry, we cannot automatically install zsh on your system. Please install it manually.${reset_color}"
+    exit 1
+  fi
+}
+
+if ! command -v zsh >/dev/null; then
+  install_zsh || exit 1
+fi
+
+if [ ! -d ~/.shellrc/oh-my-zsh ]; then
+  git clone -q https://github.com/robbyrussell/oh-my-zsh ~/.shellrc/oh-my-zsh
+fi
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  login_shell=$(dscl . -read /Users/$(whoami) UserShell | awk '{ print $2 }')
+else
+  # Linux
+  login_shell=$(getent passwd $(whoami) | awk -F: '{ print $7 }')
+fi
+
+if ! echo "$login_shell" | grep -q zsh; then
+  echo -e "${red_color}zsh is not your default shell.${reset_color} You should probably run ${green_color}'chsh -s $(which zsh)'${reset_color} to change the default shell."
+fi
