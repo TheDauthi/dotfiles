@@ -3,8 +3,10 @@
 
 function build_prompt()
 {
-  if [ ! -z "ZSH_NAME" ] && [ -z "$fg_bold" ]; then
-    autoload -U colors && colors
+  if [ ! -z "$ZSH_NAME" ] && [ -z "$fg_bold" ]; then
+    if command -v autoload >/dev/null 2>&1; then
+      autoload -U colors && colors
+    fi
   fi
 
   local bash_prompt=\''[\\033[01;32m\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\]\w\[\\033[00m\]\\$ '\'
