@@ -90,6 +90,7 @@ EOM
 additional_setup() {
   echo "Setting up default packages..."
   default_package_file="$virtualenv_root/$default_package_file_name"
+  touch -a "$default_package_file"
   for package in "${default_packages[@]}"; do
     if [ ! -f "$default_package_file" ] || ! grep -q "^$package$" "$default_package_file"; then
       echo "Adding $package..."
@@ -97,6 +98,7 @@ additional_setup() {
     fi
   done
 }
+
 
 # Default values for flags
 yes_flag=false
