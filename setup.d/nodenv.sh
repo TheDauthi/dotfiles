@@ -3,7 +3,7 @@
 language_name="Node"
 language_env="nodenv"
 virtualenv_root="$HOME/.nodenv"
-language_env_repo="https://github.com/tokuhirom/nodenv.git"
+language_env_repo="https://github.com/nodenv/nodenv.git"
 plugins=(
     "nodenv-update=https://github.com/nodenv/nodenv-update.git"
     "nodenv-default-packages=https://github.com/nodenv/nodenv-default-packages.git"
